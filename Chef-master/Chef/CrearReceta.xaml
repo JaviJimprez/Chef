@@ -1,0 +1,160 @@
+﻿<Window x:Class="Chef.CrearReceta"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chef"
+        mc:Ignorable="d"
+        Title="CrearReceta" Height="850" Width="1080" Background="#f7daa3" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="BotonPersonalizado" TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#f5aa42"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="17" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightYellow"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="Orange"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,-6">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle HorizontalAlignment="Left" Height="71"  VerticalAlignment="Top" Width="2000" Grid.ColumnSpan="2">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="Orange" Offset="0.1" />
+                    <GradientStop Color="Red" Offset="0.7" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="10,4,0,0" TextWrapping="Wrap" Text="Nueva receta +" VerticalAlignment="Top" Height="59" Width="340" FontSize="48" FontFamily="Trebuchet MS"/>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="40,84,48,0" Height="285" VerticalAlignment="Top">
+
+            <Grid Height="300">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="205*"/>
+                    <RowDefinition Height="137*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right">
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Nombre Receta:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,0,0,0"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Duración:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,25,0,0"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Descripción:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,25,0,0"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Dificultad:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,133,0,0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="29,0,0,0" Grid.RowSpan="2" Grid.Column="1">
+                    <TextBox x:Name="txtNombre" FontSize="20" FontWeight="Medium" FontFamily="Trebuchet MS"  
+                             Foreground="Black" CaretBrush="LightGray" BorderBrush="DarkGray" 
+                             Height="28" Margin="0,0,0,20" BorderThickness="1" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="txtDuracion" HorizontalAlignment="Left" FontSize="20" FontWeight="Medium" FontFamily="Trebuchet MS" 
+                             Foreground="Black" CaretBrush="LightGray" BorderBrush="DarkGray" AcceptsReturn="True" 
+                             Height="28" Margin="0,0,0,20" Width="110" TextWrapping="Wrap" BorderThickness="1"/>
+                        <TextBlock Text="mins." Margin="10,0,0,20" VerticalAlignment="Center" FontSize="19"/>
+                        <Button Content="Añadir Imagen:" Margin="200,0,0,20" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                FontSize="13" Style="{StaticResource BotonPersonalizado}" Height="30"/>
+                        <TextBox Width="280" Height="30" Margin="20,0,0,20" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBox x:Name="txtDescripcion" 
+         FontSize="20" 
+         FontWeight="Medium" 
+         FontFamily="Trebuchet MS" 
+         Foreground="Black" 
+         CaretBrush="LightGray" 
+         BorderBrush="DarkGray" 
+         BorderThickness="1" 
+         TextWrapping="Wrap" 
+         AcceptsReturn="True"
+         Height="120" 
+         Margin="0,0,0,20"/>
+
+                    <TextBlock TextWrapping="Wrap" Text="1   -   2   -   3   -   4   -   5   -   6   -   7   -   8   -   9   -   10" 
+                               FontFamily="Trebuchet MS" FontSize="20" Margin="0,0,0,10"/>
+
+                    <Slider Width="522" HorizontalAlignment="Left" Margin="0,-10,0,0" Height="17" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <Rectangle Grid.Row="1" HorizontalAlignment="Left" Height="8" Fill="orange" VerticalAlignment="Top" Width="2000" Margin="0,10,0,0"/>
+
+        <StackPanel Orientation="Vertical" Margin="40,41,48,1" Grid.Row="1">
+
+            <Grid Height="320">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,0,0,-4" >
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Ingredientes:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,0,0,0"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Pasos:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,130,0,0"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="29,0,0,6" Grid.Column="1">
+                    <ListBox Height="100"/>
+                    <Button Style="{StaticResource BotonPersonalizado}" Margin="0,10,0,0" FontSize="12" Content="Agregar Ingrediente" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>
+
+                    <ListBox Height="100" Margin="0,10,0,0"/>
+                    <Button Style="{StaticResource BotonPersonalizado}" Margin="0,10,0,0" FontSize="12" Content="Agregar Paso" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>
+
+                </StackPanel>
+
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Grid.Row="1" Margin="40,356,48,0" Grid.RowSpan="2" >
+            <Grid Width="990" Height="66">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Style="{StaticResource BotonPersonalizado}" Margin="0,0,30,0" FontSize="12" Content="Guardar" HorizontalAlignment="Right" 
+            Height="30" VerticalAlignment="Center" Grid.Column="0"/>
+                <Button Style="{StaticResource BotonPersonalizado}" Margin="30,0,0,0" FontSize="12" Content="Descartar" HorizontalAlignment="Left"
+            Height="30" VerticalAlignment="Center" Grid.Column="1"/>
+            </Grid>
+        </StackPanel>
+        <Rectangle Grid.Row="1" HorizontalAlignment="Left" Height="8" Fill="orange" VerticalAlignment="Top" Width="2000" Margin="0,348,0,0" Grid.RowSpan="2"/>
+        <Image HorizontalAlignment="Left" Source="C:\Users\Javier\Pictures\note.jpg"  Height="98" Margin="350,0,0,0" VerticalAlignment="Top" Width="95"/>
+
+    </Grid>
+
+</Window>
