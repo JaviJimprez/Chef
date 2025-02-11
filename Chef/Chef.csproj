@@ -8,31 +8,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="img\estrella.png" />
-    <None Remove="img\fondo.jpg" />
-    <None Remove="img\icono.png" />
-    <None Remove="img\lock_icon.png" />
-    <None Remove="img\paella.jpg" />
-    <None Remove="img\pollo_limon.jpg" />
-    <None Remove="img\rellena.png" />
-    <None Remove="img\tarta_queso.jpg" />
-    <None Remove="img\user_icon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="img\paella.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="img\estrella.png" />
-    <Resource Include="img\fondo.jpg" />
-    <Resource Include="img\icono.png" />
-    <Resource Include="img\lock_icon.png" />
-    <Resource Include="img\pollo_limon.jpg" />
-    <Resource Include="img\rellena.png" />
-    <Resource Include="img\tarta_queso.jpg" />
-    <Resource Include="img\user_icon.png" />
-  </ItemGroup>
-
 </Project>
