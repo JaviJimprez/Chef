@@ -160,7 +160,6 @@
         <Border Style="{StaticResource GridContainerStyle}" Opacity="1" Height="326" Width="245" DockPanel.Dock="Left" Margin="505,118,50,40">
             <Grid>
                 <Button x:Name="AceptarRecetaBtn" Content="Aceptar" Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="75,231,0,0" VerticalAlignment="Top" Height="33" Width="82" FontWeight="Bold" Click="AceptarRecetaBtn_Click"/>
-                <Button x:Name="cancelarRecetaBtn" Content="X" Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="173,-132,0,0" VerticalAlignment="Top" Height="36" Width="37" FontWeight="Bold" RenderTransformOrigin="0.562,0.577"/>
                 <TextBlock HorizontalAlignment="Left" Margin="48,32,0,0" TextWrapping="Wrap" Text="pasos creados" VerticalAlignment="Top" Height="25" Width="122" FontSize="16" FontWeight="Bold"/>
                 <ComboBox x:Name="cbPasos" HorizontalAlignment="Center" Margin="0,83,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbPasos_SelectionChanged"/>
 

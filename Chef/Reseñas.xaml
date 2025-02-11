@@ -52,7 +52,7 @@
             <Image Source="img/fondo.jpg" Opacity="0.33" Stretch="Fill"/>
         </Grid>
 
-        <Rectangle Width="475" Height="475" Fill="Wheat" Opacity="0.75"/>
+        <Rectangle Width="475" Fill="Wheat" Opacity="0.85" Margin="446,0,446,0"/>
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
