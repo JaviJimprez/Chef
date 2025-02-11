@@ -21,7 +21,6 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Stroke" Value="Black"/>
             <Setter Property="StrokeThickness" Value="2"/>
         </Style>
 
@@ -89,7 +88,7 @@
 
     <Grid Background="Wheat">
         <!-- Rectangle que usa el estilo RectangleDegradado -->
-        <Rectangle RadiusX="0" RadiusY="0" Margin="-109,-1,-110,348" Style="{StaticResource RectangleDegradado}" />
+        <Rectangle RadiusX="0" RadiusY="0" Margin="0,-1,0,353" Style="{StaticResource RectangleDegradado}" />
 
         <!-- Elementos de la interfaz -->
         <TextBlock HorizontalAlignment="Left" Margin="34,136,0,0" TextWrapping="Wrap" Text="Ingrediente" VerticalAlignment="Top" Width="72"/>
@@ -99,7 +98,6 @@
         <TextBox HorizontalAlignment="Left" Margin="34,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
         <Button Content="Aceptar" Style="{StaticResource Botongradiente}" HorizontalAlignment="Center" Margin="0,370,0,0" VerticalAlignment="Top" Height="35" Width="105" RenderTransformOrigin="1.32,0.535" FontWeight="Bold"/>
         <Button Content="Añadir Ingrediente"  Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="34,237,0,0" VerticalAlignment="Top" Height="40" Width="167" FontWeight="Bold"/>
-        <Button Content="X" Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="543,23,0,0" VerticalAlignment="Top" Height="30" Width="30" FontWeight="Bold" RenderTransformOrigin="0.461,0.516"/>
         <Label Content="Ingredientes" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Height="65" Width="231" FontSize="36"/>
     </Grid>
 </Window>
