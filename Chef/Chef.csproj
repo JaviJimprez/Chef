@@ -33,6 +33,7 @@
     <Resource Include="img\fondo.jpg" />
     <Resource Include="img\icono.png" />
     <Resource Include="img\lock_icon.png" />
+    <Resource Include="img\paella.jpg" />
     <Resource Include="img\pollo_limon.jpg" />
     <Resource Include="img\rellena.png" />
     <Resource Include="img\tarta_queso.jpg" />
