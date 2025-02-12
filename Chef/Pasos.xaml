@@ -1,0 +1,155 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="av" 
+    x:Class="SeguirReceta.MainWindow"
+    Title="Pasos"
+    Height="600" Width="1000">
+
+    <Grid>
+        <!-- Fondo con degradado -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFFF4A00" Offset="0"/>
+                <GradientStop Color="Yellow" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Definir filas para la estructura escalable -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <!-- Encabezado -->
+            <RowDefinition Height="5*"/>
+            <!-- Contenido del TabControl -->
+        </Grid.RowDefinitions>
+
+        <!-- Contenedor del encabezado -->
+        <Grid Grid.Row="0">
+            <!-- Imagen de fondo en el encabezado -->
+            <Border x:Name="imPlato" Grid.Row="0">
+                <Border.Background>
+                    <ImageBrush ImageSource="img/pollo_limon.jpg"
+                                Stretch="UniformToFill"
+                                AlignmentY="Center"/>
+                </Border.Background>
+            </Border>
+
+            <!-- Contenedor del texto sobre la imagen -->
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="Wheat">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Título -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Estrellas y tiempo -->
+                </Grid.RowDefinitions>
+
+                <!-- Título centrado sobre la imagen -->
+                <Label x:Name="lbNombre" Content="Pollo al limón"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="70"
+                       FontWeight="Bold"
+                       Foreground="Black"
+                       Background="#FFF5DEB3"
+                       Padding="10"
+                       Opacity="100"/>
+
+                <!-- Contenedor para estrellas y tiempo -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal"
+                            HorizontalAlignment="Center" Margin="5">
+                    <!-- Padding corregido -->
+                    <Label x:Name="lbDificultad" Content="💀10"
+                           FontSize="30"
+                           Foreground="Black"/>
+
+                    <Label Content=" | "
+                           FontSize="30"
+                           Foreground="Black"/>
+
+                    <Label x:Name="lbDuracion" Content="50 min."
+                           FontSize="25"
+                           Foreground="Black"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!-- TabControl -->
+        <TabControl Grid.Row="1">
+            <TabItem x:Name="tiIngredientes" Header="Ingredientes">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="41*"/>
+                        <ColumnDefinition Width="64*"/>
+                        <ColumnDefinition Width="889*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="lbIngredientes" av:ItemsSource="{av:SampleData ItemCount=5}" Grid.ColumnSpan="3"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="tiPasos" Header="Pasos">
+                <Grid Background="Transparent">
+                    <!-- Definir filas dentro del Grid de "Pasos" -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Primera mitad del texto -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Segunda mitad del texto -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Botones y barra de progreso -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Contador de pasos -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Texto del paso (ajustado automáticamente con saltos de línea y justificado) -->
+                    <TextBlock x:Name="lbPaso" Grid.Row="0"
+                               Text="En un cazo, ponemos a cocer el zumo de limón con el azúcar, el caldo, una cucharada de Maizena y las tres rodajas, dejando a fuego lento hasta que espese como un jarabe."
+                               TextWrapping="Wrap"
+                               TextAlignment="Justify"
+                               FontSize="20"
+                               Margin="20"
+                               FontWeight="Bold"/>
+
+                    <!-- Botones de navegación y barra de progreso -->
+                    <Grid Grid.Row="2" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- Botón atrás -->
+                            <ColumnDefinition Width="*"/>
+                            <!-- Barra de progreso -->
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- Botón adelante -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Botón de retroceder con fondo transparente -->
+                        <Button Grid.Column="0" Width="50" Height="50"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand">
+                            <Image x:Name="btAtras" Source="img/flecha_atras.png" Stretch="Fill"/>
+                        </Button>
+
+                        <!-- Barra de progreso -->
+                        <ProgressBar x:Name="pbProgreso" Grid.Column="1" Height="20" Width="400"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <!-- Botón de avanzar con fondo transparente -->
+                        <Button Grid.Column="2" Width="50" Height="50"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand">
+                            <Image x:Name="btAlante" Source="img/flecha_alante.png" Stretch="Fill"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Contador de pasos centrado -->
+                    <TextBlock x:Name="lbNumeroPaso" Grid.Row="3"
+                               Text="1/7"
+                               FontSize="30"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="10"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

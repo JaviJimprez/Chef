@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="flecha_alante.png" />
     <None Remove="img\estrella.png" />
+    <None Remove="img\flecha_alante.png" />
     <None Remove="img\fondo.jpg" />
     <None Remove="img\icono.png" />
     <None Remove="img\lock_icon.png" />
@@ -21,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="flecha_alante.png" />
+    <Resource Include="img\flecha_alante.png" />
     <Resource Include="img\paella.jpg" />
   </ItemGroup>
 
@@ -29,6 +33,7 @@
     <Resource Include="img\fondo.jpg" />
     <Resource Include="img\icono.png" />
     <Resource Include="img\lock_icon.png" />
+    <Resource Include="img\paella.jpg" />
     <Resource Include="img\pollo_limon.jpg" />
     <Resource Include="img\rellena.png" />
     <Resource Include="img\tarta_queso.jpg" />
