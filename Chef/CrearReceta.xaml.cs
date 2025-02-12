@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CocinaRecetas.clases;
 using WpfApp2;
 
 namespace Chef
@@ -18,56 +17,34 @@ namespace Chef
     /// </summary>
     public partial class CrearReceta : Window
     {
-        // Variable para almacenar la receta a editar
-        private Receta _receta;
         public CrearReceta()
         {
             InitializeComponent();
         }
-
-        // Constructor para editar una receta existente
-        public CrearReceta(Receta receta) : this() // Llama al constructor por defecto
+        //ingredientes
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _receta = receta;
+            // Crear una instancia de la ventana emergente
+            var ingredientes = new Ingredientes();
 
-            // Cargar los datos de la receta en los controles de la ventana
-            txtNombre.Text = receta.Nombre;
-            txtDuracion.Text = receta.Tiempo.ToString();
-            txtDescripcion.Text = receta.Descripcion;
+            // Establecer la ventana principal como propietaria de la ventana emergente
+            ingredientes.Owner = this;
 
-            // Si tienes otros controles (por ejemplo, imagen, dificultad, etc.), cárgalos aquí
+            // Mostrar la ventana como modal (bloquea la interacción con la ventana principal hasta que se cierre)
+            ingredientes.ShowDialog();
         }
-        private void AgregarIngrediente_Click(object sender, RoutedEventArgs e)
-        {
-            // Crear una instancia de la ventana Ingredientes
-            Ingredientes ventanaIngredientes = new Ingredientes();
-
-            // Opcional: establecer la ventana actual como propietaria
-            ventanaIngredientes.Owner = this;
-
-            // Mostrar la ventana de forma modal (bloquea la interacción con la ventana actual hasta que se cierre)
-            ventanaIngredientes.ShowDialog();
-
-            // Si prefieres que sea no modal, usa:
-            // ventanaIngredientes.Show();
-        }
-
         //pasos
-        // Paso: Agregar paso
-        private void AgregarPasos_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            // 1. Crear una instancia de la ventana que mostrará los pasos
+            // Crear una instancia de la ventana emergente
             var ventanaEmergente = new VentanaEmergente();
 
-            // 2. (Opcional) Establecer la ventana actual como propietaria, para que la ventana emergente se posicione sobre ésta
+            // Establecer la ventana principal como propietaria de la ventana emergente
             ventanaEmergente.Owner = this;
 
-            // 3. Mostrar la ventana de forma modal, de modo que se bloquee la interacción con la ventana actual hasta que se cierre
+            // Mostrar la ventana como modal (bloquea la interacción con la ventana principal hasta que se cierre)
             ventanaEmergente.ShowDialog();
 
-            // Si prefieres que sea no modal, puedes usar:
-            // ventanaEmergente.Show();
         }
-
     }
 }
