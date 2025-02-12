@@ -15,20 +15,20 @@ using System.Windows.Shapes;
 using CocinaRecetas.clases;
 using CocinaRecetas.view;
 
-namespace CocinaRecetas
+namespace Chef
 {
     /// <summary>
     /// Lógica de interacción para ListaRecetas.xaml
     /// </summary>
     public partial class ListaRecetas : Window
     {
-        public MainViewModel ViewModel { get; set; }
+        public ListaRecetasViewModel ViewModel { get; set; }
 
         public ListaRecetas()
         {
             InitializeComponent();
 
-            ViewModel = new MainViewModel();
+            ViewModel = new ListaRecetasViewModel();
 
             DataContext = ViewModel;
 

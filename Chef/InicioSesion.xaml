@@ -54,7 +54,7 @@
 
         <Rectangle Width="475" Fill="Wheat" Opacity="0.75" Margin="414,0,414,0"/>
 
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -79,8 +79,8 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
-                    <Button Content="INICIAR SESIÓN" Style="{StaticResource BotonPersonalizado}" Margin="0,0,10,0"/>
-                    <Button Content="REGISTRARSE" Style="{StaticResource BotonPersonalizado}" Margin="10,0,0,0"/>
+                    <Button x:Name="BtnIniciarSesion" Content="INICIAR SESIÓN" Style="{StaticResource BotonPersonalizado}" Margin="0,0,10,0" Click="BtnIniciarSesion_Click"/>
+                    <Button x:Name="BtnRegistrarse" Content="REGISTRARSE" Style="{StaticResource BotonPersonalizado}" Margin="10,0,0,0" Click="BtnRegistrarse_Click"/>
                 </StackPanel>
             </StackPanel>
 

@@ -9,7 +9,7 @@ using CocinaRecetas.clases;
 
 namespace CocinaRecetas.view
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class ListaRecetasViewModel : INotifyPropertyChanged
     {
         private string _nombre;
         private string _tiempo;
@@ -57,7 +57,7 @@ namespace CocinaRecetas.view
         }
         public ObservableCollection<Receta> Recetas { get; }
 
-        public MainViewModel()
+        public ListaRecetasViewModel()
         {
             Recetas = new ObservableCollection<Receta>
             {
