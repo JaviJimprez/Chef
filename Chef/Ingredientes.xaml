@@ -8,10 +8,6 @@
         Title="Ingredientes" Height="450" Width="650"
         ResizeMode="NoResize">
 
-    <Window.DataContext>
-        <vm:IngredienteRecetaViewModel/>
-    </Window.DataContext>
-
     <Window.Resources>
         <!-- Estilo personalizado para Rectangle con degradado -->
         <Style x:Key="RectangleDegradado" TargetType="Rectangle">
@@ -85,42 +81,62 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="Wheat">
-        <!-- Rectangle con degradado -->
-        <Rectangle RadiusX="0" RadiusY="0" Margin="0,-1,0,353" Style="{StaticResource RectangleDegradado}" />
+    <Grid Background="Wheat" Margin="10">
+        <!-- Definición de filas y columnas para organizar los controles -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Encabezado: Rectangle -->
+            <RowDefinition Height="Auto"/>
+            <!-- Campos de entrada -->
+            <RowDefinition Height="Auto"/>
+            <!-- Botones -->
+            <RowDefinition Height="Auto"/>
+            <!-- Etiqueta -->
+            <RowDefinition Height="*"/>
+            <!-- ListBox -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Campo para el Nombre del Ingrediente -->
-        <TextBlock Text="Nombre Ingrediente:" HorizontalAlignment="Left" Margin="34,99,0,0" VerticalAlignment="Top" Width="150"/>
-        <TextBox HorizontalAlignment="Left" Margin="161,99,0,319" Width="200" 
-                 Text="{Binding NombreIngrediente, UpdateSourceTrigger=PropertyChanged}"/>
+        <!-- Rectangle con degradado en el encabezado -->
+        <Rectangle Grid.Row="0" Height="50" Style="{StaticResource RectangleDegradado}" Margin="0,0,0,10"/>
 
-        <!-- Campo para el Ingrediente ID (solo lectura) -->
-        <TextBlock Text="Ingrediente ID:" HorizontalAlignment="Left" Margin="34,130,0,0" VerticalAlignment="Top" Width="150"/>
-        <TextBox HorizontalAlignment="Left" Margin="126,130,0,288" Width="142" 
-                 Text="{Binding IngredienteId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <!-- Sección de campos de entrada -->
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Campo para la Cantidad -->
-        <TextBlock Text="Cantidad:" HorizontalAlignment="Left" Margin="34,170,0,0" VerticalAlignment="Top" Width="150"/>
-        <TextBox HorizontalAlignment="Left" Margin="99,170,0,248" Width="142" 
-                 Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"/>
+            <!-- Nombre Ingrediente -->
+            <TextBlock Text="Nombre Ingrediente:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding NombreIngrediente, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <!-- Botón Aceptar -->
-        <Button Content="Aceptar" Style="{StaticResource Botongradiente}" 
-                HorizontalAlignment="Center" Margin="0,370,0,0" VerticalAlignment="Top" 
-                Height="35" Width="105" FontWeight="Bold" Click="BtnAceptar_Click"/>
+            <!-- Ingrediente ID -->
+            <TextBlock Text="Ingrediente ID:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding IngredienteId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
 
-        <!-- Botón Añadir Ingrediente -->
-        <Button Content="Añadir Ingrediente" Style="{StaticResource Botongradiente}" 
-                HorizontalAlignment="Left" Margin="34,230,0,0" VerticalAlignment="Top" 
-                Height="40" Width="167" FontWeight="Bold" Click="BtnAñadirIngrediente_Click"/>
+            <!-- Cantidad -->
+            <TextBlock Text="Cantidad:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
 
-        <!-- Etiqueta "Ingredientes" -->
-        <Label Content="Ingredientes" HorizontalAlignment="Left" Margin="10,4,0,0" 
-               VerticalAlignment="Top" Height="65" Width="231" FontSize="36"/>
+        <!-- Sección de botones -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <Button Content="Aceptar" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAceptar_Click"/>
+            <Button Content="Añadir Ingrediente" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAñadirIngrediente_Click"/>
+        </StackPanel>
 
-        <TextBlock Text="Lista Ingredientes" HorizontalAlignment="Left" Margin="461,122,0,0" VerticalAlignment="Top"/>
+        <!-- Etiqueta de encabezado para la lista -->
+        <Label Grid.Row="3" Content="Ingredientes" HorizontalAlignment="Left" Margin="10,0,0,10" FontSize="36"/>
+
         <!-- ListBox para mostrar la lista de ingredientes -->
-        <ListBox HorizontalAlignment="Left" Margin="405,150,0,114"
-                 ItemsSource="{Binding ListaIngredientes}" Width="205" />
+        <ListBox Grid.Row="4" Margin="10" ItemsSource="{Binding ListaIngredientes}"/>
     </Grid>
 </Window>
