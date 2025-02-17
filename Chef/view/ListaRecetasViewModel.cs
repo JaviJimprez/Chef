@@ -8,24 +8,20 @@ namespace CocinaRecetas.view
 {
     public class ListaRecetasViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Receta> Recetas { get; }
-
-        // Suponemos que guardamos el id del usuario que inició sesión
         private int _idUsuario;
-
-        // Repositorio para acceder a la base de datos
         private readonly Repositorio _repositorio;
+
+        public ObservableCollection<Receta> Recetas { get; set; }
 
         public ListaRecetasViewModel(int idUsuario)
         {
             _idUsuario = idUsuario;
             _repositorio = new Repositorio();
             Recetas = new ObservableCollection<Receta>();
-
             CargarRecetas();
         }
 
-        private void CargarRecetas()
+        public void CargarRecetas()
         {
             List<Receta> recetasDesdeBD = _repositorio.ObtenerRecetasPorUsuario(_idUsuario);
             Recetas.Clear();
@@ -36,8 +32,7 @@ namespace CocinaRecetas.view
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

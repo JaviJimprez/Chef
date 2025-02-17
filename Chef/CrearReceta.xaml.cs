@@ -10,13 +10,13 @@ namespace Chef
     /// </summary>
     public partial class CrearReceta : Window
     {
-        private Receta _receta; // Para modo edición (opcional)
+        private Receta _receta; // Modo edición (opcional)
 
         // Constructor por defecto: para crear una nueva receta
         public CrearReceta()
         {
             InitializeComponent();
-            // Se establece el DataContext con el ViewModel (aquí se usa 1 como ejemplo para el id del usuario)
+            // Asigna el DataContext con el ViewModel; usa 1 como ejemplo para el id del usuario
             DataContext = new CrearRecetaViewModel(1);
         }
 
@@ -49,18 +49,16 @@ namespace Chef
 
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("BtnGuardar_Click llamado");
             if (DataContext is CrearRecetaViewModel vm)
             {
                 vm.SaveRecipe();
-                this.DialogResult = true;
+                this.DialogResult = true; // Solo se puede establecer cuando la ventana se muestra como diálogo (ShowDialog)
                 this.Close();
             }
         }
 
         private void BtnDescartar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("BtnDescartar_Click llamado");
             this.DialogResult = false;
             this.Close();
         }

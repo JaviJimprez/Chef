@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using Chef.models;
-using Chef.Data; // Asegúrate de que Repositorio esté en este namespace
+using Chef.Data;
 
 namespace Chef.View
 {
@@ -29,7 +29,7 @@ namespace Chef.View
             set { _descripcion = value; OnPropertyChanged(nameof(Descripcion)); }
         }
 
-        // Propiedad Dificultad (entero, de 1 a 10)
+        // Dificultad: entero de 1 a 10
         private int _dificultad;
         public int Dificultad
         {
@@ -42,7 +42,6 @@ namespace Chef.View
 
         private readonly Repositorio _repositorio;
 
-        // Constructor que recibe el id del usuario (por ejemplo, del login)
         public CrearRecetaViewModel(int idUsuario)
         {
             IdUsuario = idUsuario;
@@ -51,10 +50,8 @@ namespace Chef.View
             Dificultad = 1;
         }
 
-        // Método que se invoca para guardar la receta
         public void SaveRecipe()
         {
-            // Validación básica de los datos
             if (string.IsNullOrWhiteSpace(Nombre) ||
                 string.IsNullOrWhiteSpace(Tiempo) ||
                 string.IsNullOrWhiteSpace(Descripcion))
@@ -69,7 +66,6 @@ namespace Chef.View
                 return;
             }
 
-            // Crear el objeto Receta con los datos ingresados
             Receta nuevaReceta = new Receta
             {
                 Nombre = this.Nombre,
@@ -81,7 +77,6 @@ namespace Chef.View
 
             try
             {
-                // Insertar la receta en la base de datos
                 int newId = _repositorio.InsertarReceta(nuevaReceta);
                 nuevaReceta.Id = newId;
                 MessageBox.Show("Receta guardada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);

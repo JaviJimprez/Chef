@@ -61,10 +61,18 @@ namespace Chef.View
                 string contraseñaDesdeBD = _repositorio.ObtenerContrasenia(Usuario);
                 if (contraseñaDesdeBD == Contraseña)
                 {
+                    // Obtener el id del usuario
+                    int idUsuario = _repositorio.ObtenerIdUsuario(Usuario);
+                    if (idUsuario == -1)
+                    {
+                        MessageBox.Show("No se pudo obtener el ID del usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Aquí abres la siguiente ventana (por ejemplo, ListaRecetas)
-                    ListaRecetas listaRecetas = new ListaRecetas(); // Ajusta el constructor si es necesario
+                    // Abre ListaRecetas pasando el idUsuario
+                    ListaRecetas listaRecetas = new ListaRecetas(idUsuario);
                     listaRecetas.Show();
                     Application.Current.Windows[0]?.Close();
                 }
@@ -78,6 +86,7 @@ namespace Chef.View
                 MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         // Método para registrarse (invocado desde el code-behind)
         public void Registrarse()

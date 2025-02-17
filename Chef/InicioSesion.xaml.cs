@@ -5,33 +5,28 @@ namespace Chef
 {
     public partial class InicioSesion : Window
     {
-        private readonly View.InicioSesionViewModel _viewModel;
+        private readonly InicioSesionViewModel _viewModel;
 
         public InicioSesion()
         {
             InitializeComponent();
-            _viewModel = new View.InicioSesionViewModel();
+            _viewModel = new InicioSesionViewModel();
+            DataContext = _viewModel;  // ASIGNA EL DATACONTEXT
         }
 
         private void BtnIniciarSesion_Click(object sender, RoutedEventArgs e)
         {
-            // Suponiendo que DataContext es una instancia de InicioSesionViewModel
-            if (DataContext is InicioSesionViewModel vm)
-            {
-                vm.Usuario = txtUsuario.Text;
-                vm.Contraseña = txtContraseña.Password;
-                vm.IniciarSesion();
-            }
+            // Ahora DataContext es _viewModel, puedes usarlo directamente:
+            _viewModel.Usuario = txtUsuario.Text;
+            _viewModel.Contraseña = txtContraseña.Password;
+            _viewModel.IniciarSesion();
         }
 
         private void BtnRegistrarse_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is InicioSesionViewModel vm)
-            {
-                vm.Usuario = txtUsuario.Text;
-                vm.Contraseña = txtContraseña.Password;
-                vm.Registrarse();
-            }
+            _viewModel.Usuario = txtUsuario.Text;
+            _viewModel.Contraseña = txtContraseña.Password;
+            _viewModel.Registrarse();
         }
 
     }

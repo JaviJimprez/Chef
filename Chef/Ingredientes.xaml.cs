@@ -11,10 +11,11 @@ namespace WpfApp2
     {
         private IngredienteRecetaViewModel _viewModel;
 
+        public object Nombre { get; internal set; }
+
         public Ingredientes()
         {
             InitializeComponent();
-            // El DataContext ya se asignó en el XAML, pero lo obtenemos aquí para facilitar su uso.
             _viewModel = DataContext as IngredienteRecetaViewModel;
             if (_viewModel == null)
             {
@@ -25,24 +26,21 @@ namespace WpfApp2
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Aquí puedes manejar la selección del ListBox, si es necesario.
+            // Opcional: manejo de selección en el ListBox
         }
 
         private void BtnAceptar_Click(object sender, RoutedEventArgs e)
         {
-            // Invoca el método del ViewModel para guardar el ingrediente
             _viewModel.GuardarIngrediente();
             MessageBox.Show("Ingrediente guardado correctamente.");
-            this.Close(); // Cierra la ventana después de aceptar, según tu lógica.
+            this.Close();
         }
 
         private void BtnAñadirIngrediente_Click(object sender, RoutedEventArgs e)
         {
-            // Si deseas agregar el ingrediente a una lista (además de guardarlo),
-            // puedes invocar el método del ViewModel y luego limpiar campos o actualizar la UI.
             _viewModel.GuardarIngrediente();
             MessageBox.Show("Ingrediente añadido.");
-            // Opcional: limpiar campos o actualizar el ListBox.
+            // Opcional: limpiar campos o actualizar la lista
         }
     }
 }

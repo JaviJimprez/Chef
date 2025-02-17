@@ -13,11 +13,9 @@ namespace Chef
         public ListaRecetasViewModel ViewModel { get; set; }
 
         // Constructor sin parámetros: usa un id de usuario por defecto (por ejemplo, 1)
-        public ListaRecetas() : this(1)
-        {
-        }
+        public ListaRecetas() : this(1) { }
 
-        // Constructor que recibe el id del usuario logueado
+        // Constructor que recibe el id del usuario
         public ListaRecetas(int idUsuario)
         {
             InitializeComponent();
@@ -29,27 +27,28 @@ namespace Chef
 
         private void BtnNuevaReceta_Click(object sender, RoutedEventArgs e)
         {
-            // Se crea la ventana para crear una nueva receta
             CrearReceta ventanaCrearReceta = new CrearReceta();
             ventanaCrearReceta.Owner = this;
-            ventanaCrearReceta.Show();
+            // Mostrar como diálogo para poder usar DialogResult
+            if (ventanaCrearReceta.ShowDialog() == true)
+            {
+                // Refrescar la lista de recetas
+                ViewModel.CargarRecetas();
+            }
         }
 
         private void BtnEditar_Click(object sender, RoutedEventArgs e)
         {
-            // Verificar que se haya seleccionado una receta
             if (lsRecetas.SelectedItem is Receta recetaSeleccionada)
             {
-                // Crear la instancia de CrearReceta pasando la receta seleccionada para editarla
                 CrearReceta ventanaEditar = new CrearReceta(recetaSeleccionada);
-                ventanaEditar.Owner = this; // Establece la ventana actual como propietaria
-
-                // Mostrar la ventana como modal
+                ventanaEditar.Owner = this;
                 ventanaEditar.ShowDialog();
+                // Si editas la receta, podrías refrescar la lista también
+                ViewModel.CargarRecetas();
             }
             else
             {
-                // Mostrar mensaje si no se ha seleccionado ninguna receta
                 MessageBox.Show("Por favor, seleccione una receta para editar.",
                                 "Atención",
                                 MessageBoxButton.OK,
@@ -59,11 +58,7 @@ namespace Chef
 
         private void lsRecetas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Si se ha seleccionado una receta, se hace visible el botón de editar.
-            if (lsRecetas.SelectedItem != null)
-                btEditarReceta.Visibility = Visibility.Visible;
-            else
-                btEditarReceta.Visibility = Visibility.Hidden;
+            btEditarReceta.Visibility = lsRecetas.SelectedItem != null ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }
