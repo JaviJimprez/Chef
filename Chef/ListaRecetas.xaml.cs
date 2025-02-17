@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using CocinaRecetas.clases;
+using Chef.models;
 using CocinaRecetas.view;
 
 namespace Chef
@@ -24,16 +12,18 @@ namespace Chef
     {
         public ListaRecetasViewModel ViewModel { get; set; }
 
-        public ListaRecetas()
+        // Constructor sin parámetros: usa un id de usuario por defecto (por ejemplo, 1)
+        public ListaRecetas() : this(1)
+        {
+        }
+
+        // Constructor que recibe el id del usuario logueado
+        public ListaRecetas(int idUsuario)
         {
             InitializeComponent();
-
-            ViewModel = new ListaRecetasViewModel();
-
+            ViewModel = new ListaRecetasViewModel(idUsuario);
             DataContext = ViewModel;
-
             lsRecetas.ItemsSource = ViewModel.Recetas;
-
             lsRecetas.SelectionChanged += lsRecetas_SelectionChanged;
         }
 
@@ -50,16 +40,16 @@ namespace Chef
             // Verificar que se haya seleccionado una receta
             if (lsRecetas.SelectedItem is Receta recetaSeleccionada)
             {
-                // Crear la instancia de CrearReceta pasando la receta seleccionada
+                // Crear la instancia de CrearReceta pasando la receta seleccionada para editarla
                 CrearReceta ventanaEditar = new CrearReceta(recetaSeleccionada);
-                ventanaEditar.Owner = this; // Opcional: establece la ventana actual como propietaria
+                ventanaEditar.Owner = this; // Establece la ventana actual como propietaria
 
-                // Mostrar la ventana como modal para bloquear la interacción hasta que se cierre
+                // Mostrar la ventana como modal
                 ventanaEditar.ShowDialog();
             }
             else
             {
-                // Mostrar un mensaje de advertencia si no se ha seleccionado ninguna receta
+                // Mostrar mensaje si no se ha seleccionado ninguna receta
                 MessageBox.Show("Por favor, seleccione una receta para editar.",
                                 "Atención",
                                 MessageBoxButton.OK,
@@ -75,7 +65,5 @@ namespace Chef
             else
                 btEditarReceta.Visibility = Visibility.Hidden;
         }
-
-
     }
 }

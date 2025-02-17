@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chef.clases;
-using System.Collections.ObjectModel;
-
-namespace CocinaRecetas.clases
+﻿namespace Chef.models
 {
-    
-
     public class Receta
     {
+        public int Id { get; set; }
         public string Nombre { get; set; }
-        public int Tiempo { get; set; }
-        public string Imagen { get; set; }
+        public int Tiempo { get; set; }          // Tiempo en minutos
         public string Descripcion { get; set; }
-        public ObservableCollection<IngredienteReceta> Ingredientes { get; set; } = new();
+        public int Dificultad { get; set; }        // Por ejemplo, de 1 a 10
+        public int IdUsuarioReceta { get; set; }   // Id del usuario que creó la receta
+        public string Imagen { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using MySql.Data.MySqlClient;
-using Chef.clases; // Asegúrate de que IngredienteReceta se encuentre aquí
+using Chef.clases;
+using Chef.models; // Asegúrate de que IngredienteReceta se encuentre aquí
 
 namespace Chef.Data
 {
@@ -69,6 +70,71 @@ namespace Chef.Data
         }
 
         /// <summary>
+        /// Obtiene las recetas del usuario indicado.
+        /// </summary>
+        public List<Receta> ObtenerRecetasPorUsuario(int idUsuario)
+        {
+            List<Receta> recetas = new List<Receta>();
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"SELECT id, nombre, duracion, descripcion, dificultad, id_usuario_receta
+                                 FROM receta 
+                                 WHERE id_usuario_receta = @idUsuario";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Receta rec = new Receta
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombre = reader.GetString("nombre"),
+                                Tiempo = reader.GetInt32("duracion"),
+                                Descripcion = reader.GetString("descripcion"),
+                                Dificultad = reader.GetInt32("dificultad"),
+                                IdUsuarioReceta = reader.GetInt32("id_usuario_receta"),
+                            };
+                            recetas.Add(rec);
+                        }
+                    }
+                }
+            }
+
+            return recetas;
+        }
+
+        /// <summary>
+        /// Inserta una nueva receta en la base de datos y retorna el id autogenerado.
+        /// </summary>
+        /// <param name="receta">Objeto Receta con los datos a insertar</param>
+        /// <returns>Id generado por la base de datos</returns>
+        public int InsertarReceta(Receta receta)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"INSERT INTO receta (nombre, duracion, descripcion, dificultad, id_usuario_receta)
+                                 VALUES (@nombre, @tiempo, @descripcion, @dificultad, @id_usuario_receta);
+                                 SELECT LAST_INSERT_ID();";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", receta.Nombre);
+                    cmd.Parameters.AddWithValue("@duracion", receta.Tiempo);
+                    cmd.Parameters.AddWithValue("@descripcion", receta.Descripcion);
+                    cmd.Parameters.AddWithValue("@dificultad", receta.Dificultad);
+                    cmd.Parameters.AddWithValue("@id_usuario_receta", receta.IdUsuarioReceta);
+
+                    int id = Convert.ToInt32(cmd.ExecuteScalar());
+                    return id;
+                }
+            }
+        }
+
+        /// <summary>
         /// Servicio para gestionar la relación Ingrediente-Receta.
         /// </summary>
         public class IngredienteRecetaService
@@ -76,7 +142,7 @@ namespace Chef.Data
             private readonly string _connectionString;
 
             /// <summary>
-            /// Se espera recibir la misma cadena de conexión que usa el Repositorio.
+            /// Constructor que requiere la cadena de conexión.
             /// </summary>
             public IngredienteRecetaService(string connectionString)
             {
@@ -105,5 +171,7 @@ namespace Chef.Data
                 }
             }
         }
+
+
     }
 }

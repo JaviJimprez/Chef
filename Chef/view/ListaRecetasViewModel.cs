@@ -1,88 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CocinaRecetas.clases;
+using Chef.models;
+using Chef.Data; // Para acceder a Repositorio
+using System.Collections.Generic;
 
 namespace CocinaRecetas.view
 {
     public class ListaRecetasViewModel : INotifyPropertyChanged
     {
-        private string _nombre;
-        private string _tiempo;
-        private string _imagen;
-        private string _descripcion;
-
-        public string Nombre
-        {
-            get => _nombre;
-            set
-            {
-                _nombre = value;
-                OnPropertyChanged(nameof(Nombre));
-            }
-        }
-
-        public string Tiempo
-        {
-            get => _tiempo;
-            set
-            {
-                _tiempo = value;
-                OnPropertyChanged(nameof(Tiempo));
-            }
-        }
-
-        public string Imagen
-        {
-            get => _imagen;
-            set
-            {
-                _nombre = value;
-                OnPropertyChanged(nameof(Imagen));
-            }
-        }
-
-        public string Descripcion
-        {
-            get => _descripcion;
-            set
-            {
-                _descripcion = value;
-                OnPropertyChanged(nameof(Descripcion));
-            }
-        }
         public ObservableCollection<Receta> Recetas { get; }
 
-        public ListaRecetasViewModel()
+        // Suponemos que guardamos el id del usuario que inició sesión
+        private int _idUsuario;
+
+        // Repositorio para acceder a la base de datos
+        private readonly Repositorio _repositorio;
+
+        public ListaRecetasViewModel(int idUsuario)
         {
-            Recetas = new ObservableCollection<Receta>
+            _idUsuario = idUsuario;
+            _repositorio = new Repositorio();
+            Recetas = new ObservableCollection<Receta>();
+
+            CargarRecetas();
+        }
+
+        private void CargarRecetas()
+        {
+            List<Receta> recetasDesdeBD = _repositorio.ObtenerRecetasPorUsuario(_idUsuario);
+            Recetas.Clear();
+            foreach (var rec in recetasDesdeBD)
             {
-                new Receta
-                {
-                    Nombre = "Pollo al Limón",
-                    Tiempo = 45,
-                    Imagen = "/img/pollo_limon.jpg",
-                    Descripcion = "Receta orientada en la comida china"
-                },
-                new Receta
-                {
-                    Nombre = "Paella",
-                    Tiempo = 60,
-                    Imagen = "/img/paella.jpg",
-                    Descripcion = "Receta orientada a la comida de españa"
-                },
-                new Receta
-                {
-                    Nombre = "Tarta de Queso",
-                    Tiempo = 120,
-                    Imagen = "/img/tarta_queso.jpg",
-                    Descripcion = "Receta orientada en el mediterranio"
-                }
-            };
+                Recetas.Add(rec);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

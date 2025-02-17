@@ -1,73 +1,68 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CocinaRecetas.clases;
-using WpfApp2;
+﻿using System.Windows;
+using Chef.models;
+using Chef.View;
+using WpfApp2; // Para CrearRecetaViewModel
 
 namespace Chef
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Lógica de interacción para CrearReceta.xaml
     /// </summary>
     public partial class CrearReceta : Window
     {
-        // Variable para almacenar la receta a editar
-        private Receta _receta;
+        private Receta _receta; // Para modo edición (opcional)
+
+        // Constructor por defecto: para crear una nueva receta
         public CrearReceta()
         {
             InitializeComponent();
+            // Se establece el DataContext con el ViewModel (aquí se usa 1 como ejemplo para el id del usuario)
+            DataContext = new CrearRecetaViewModel(1);
         }
 
         // Constructor para editar una receta existente
-        public CrearReceta(Receta receta) : this() // Llama al constructor por defecto
+        public CrearReceta(Receta receta) : this()
         {
             _receta = receta;
-
-            // Cargar los datos de la receta en los controles de la ventana
-            txtNombre.Text = receta.Nombre;
-            txtDuracion.Text = receta.Tiempo.ToString();
-            txtDescripcion.Text = receta.Descripcion;
-
-            // Si tienes otros controles (por ejemplo, imagen, dificultad, etc.), cárgalos aquí
+            if (DataContext is CrearRecetaViewModel vm)
+            {
+                vm.Nombre = receta.Nombre;
+                vm.Tiempo = receta.Tiempo.ToString();
+                vm.Descripcion = receta.Descripcion;
+                vm.Dificultad = receta.Dificultad;
+            }
         }
+
         private void AgregarIngrediente_Click(object sender, RoutedEventArgs e)
         {
-            // Crear una instancia de la ventana Ingredientes
             Ingredientes ventanaIngredientes = new Ingredientes();
-
-            // Opcional: establecer la ventana actual como propietaria
             ventanaIngredientes.Owner = this;
-
-            // Mostrar la ventana de forma modal (bloquea la interacción con la ventana actual hasta que se cierre)
             ventanaIngredientes.ShowDialog();
-
-            // Si prefieres que sea no modal, usa:
-            // ventanaIngredientes.Show();
         }
 
-        //pasos
-        // Paso: Agregar paso
         private void AgregarPasos_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Crear una instancia de la ventana que mostrará los pasos
             var ventanaEmergente = new VentanaEmergente();
-
-            // 2. (Opcional) Establecer la ventana actual como propietaria, para que la ventana emergente se posicione sobre ésta
             ventanaEmergente.Owner = this;
-
-            // 3. Mostrar la ventana de forma modal, de modo que se bloquee la interacción con la ventana actual hasta que se cierre
             ventanaEmergente.ShowDialog();
-
-            // Si prefieres que sea no modal, puedes usar:
-            // ventanaEmergente.Show();
         }
 
+        private void BtnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("BtnGuardar_Click llamado");
+            if (DataContext is CrearRecetaViewModel vm)
+            {
+                vm.SaveRecipe();
+                this.DialogResult = true;
+                this.Close();
+            }
+        }
+
+        private void BtnDescartar_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("BtnDescartar_Click llamado");
+            this.DialogResult = false;
+            this.Close();
+        }
     }
 }

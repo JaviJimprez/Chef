@@ -1,7 +1,7 @@
-﻿using System.Windows.Input;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Chef.clases;
-using Chef.View;
+using Chef.Data;
+using System.Configuration;
 
 namespace Chef.viewmodels
 {
@@ -13,8 +13,9 @@ namespace Chef.viewmodels
         public IngredienteRecetaViewModel()
         {
             _ingredienteReceta = new IngredienteReceta();
-            _service = new Repositorio.IngredienteRecetaService();
-            GuardarCommand = new RelayCommand(GuardarIngrediente);
+            // Obtener la cadena de conexión desde el App.config
+            string connectionString = ConfigurationManager.ConnectionStrings["MySQLPersonaje"].ConnectionString;
+            _service = new Repositorio.IngredienteRecetaService(connectionString);
         }
 
         public int IngredienteId
@@ -47,14 +48,14 @@ namespace Chef.viewmodels
             }
         }
 
-        public ICommand GuardarCommand { get; }
-
-        private void GuardarIngrediente()
+        // Método público que guarda el ingrediente usando el servicio
+        public void GuardarIngrediente()
         {
             int nuevoId = _service.Guardar(_ingredienteReceta);
             if (nuevoId > 0)
             {
                 _ingredienteReceta.Id = nuevoId;
+                // Aquí podrías mostrar un mensaje o realizar otra acción luego de guardar
             }
         }
 

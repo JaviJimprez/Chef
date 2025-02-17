@@ -8,7 +8,7 @@ namespace Chef.clases
 {
     internal class Paso
     {
-        public int 
+        public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public double Cantidad { get; private set; }

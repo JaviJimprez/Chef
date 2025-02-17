@@ -2,8 +2,7 @@
 using System.ComponentModel;
 using System.Configuration;
 using System.Windows;
-using System.Windows.Input;
-using Chef.Data; // Asegúrate de incluir el namespace del repositorio
+using Chef.Data; // Asegúrate de tener este namespace para Repositorio
 using MySql.Data.MySqlClient;
 
 namespace Chef.View
@@ -36,16 +35,13 @@ namespace Chef.View
             }
         }
 
-        public ICommand IniciarSesionCommand { get; }
-        public ICommand RegistrarseCommand { get; }
-
+        // Constructor: inicializa el repositorio
         public InicioSesionViewModel()
         {
             _repositorio = new Repositorio();
-            IniciarSesionCommand = new RelayCommand(IniciarSesion);
-            RegistrarseCommand = new RelayCommand(Registrarse);
         }
 
+        // Método para iniciar sesión (invocado desde el code-behind)
         public void IniciarSesion()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
@@ -67,7 +63,8 @@ namespace Chef.View
                 {
                     MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    ListaRecetas listaRecetas = new ListaRecetas();
+                    // Aquí abres la siguiente ventana (por ejemplo, ListaRecetas)
+                    ListaRecetas listaRecetas = new ListaRecetas(); // Ajusta el constructor si es necesario
                     listaRecetas.Show();
                     Application.Current.Windows[0]?.Close();
                 }
@@ -82,6 +79,7 @@ namespace Chef.View
             }
         }
 
+        // Método para registrarse (invocado desde el code-behind)
         public void Registrarse()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
@@ -99,10 +97,9 @@ namespace Chef.View
                 }
 
                 _repositorio.RegistrarUsuario(Usuario, Contraseña);
-
                 MessageBox.Show("Usuario registrado exitosamente.", "Registro", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                ListaRecetas listaRecetas = new ListaRecetas();
+                ListaRecetas listaRecetas = new ListaRecetas(); // Ajusta el constructor si es necesario
                 listaRecetas.Show();
                 Application.Current.Windows[0]?.Close();
             }
@@ -112,7 +109,7 @@ namespace Chef.View
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
