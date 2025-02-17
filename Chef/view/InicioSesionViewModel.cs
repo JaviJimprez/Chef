@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Windows;
-using System.Windows.Input;
+using Chef.Data; // Asegúrate de tener este namespace para Repositorio
+using MySql.Data.MySqlClient;
 
 namespace Chef.View
 {
@@ -10,7 +11,7 @@ namespace Chef.View
     {
         private string _usuario;
         private string _contraseña;
-        private Dictionary<string, string> _usuariosRegistrados = new Dictionary<string, string>();
+        private readonly Repositorio _repositorio;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,15 +35,13 @@ namespace Chef.View
             }
         }
 
-        public ICommand IniciarSesionCommand { get; }
-        public ICommand RegistrarseCommand { get; }
-
+        // Constructor: inicializa el repositorio
         public InicioSesionViewModel()
         {
-            IniciarSesionCommand = new RelayCommand(IniciarSesion);
-            RegistrarseCommand = new RelayCommand(Registrarse);
+            _repositorio = new Repositorio();
         }
 
+        // Método para iniciar sesión (invocado desde el code-behind)
         public void IniciarSesion()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
@@ -51,20 +50,45 @@ namespace Chef.View
                 return;
             }
 
-            if (_usuariosRegistrados.ContainsKey(Usuario) && _usuariosRegistrados[Usuario] == Contraseña)
+            try
             {
-                MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (!_repositorio.UsuarioExiste(Usuario))
+                {
+                    MessageBox.Show("Usuario no existe.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
-                ListaRecetas listaRecetas = new ListaRecetas();
-                listaRecetas.Show();
-                Application.Current.Windows[0]?.Close();
+                string contraseñaDesdeBD = _repositorio.ObtenerContrasenia(Usuario);
+                if (contraseñaDesdeBD == Contraseña)
+                {
+                    // Obtener el id del usuario
+                    int idUsuario = _repositorio.ObtenerIdUsuario(Usuario);
+                    if (idUsuario == -1)
+                    {
+                        MessageBox.Show("No se pudo obtener el ID del usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Abre ListaRecetas pasando el idUsuario
+                    ListaRecetas listaRecetas = new ListaRecetas(idUsuario);
+                    listaRecetas.Show();
+                    Application.Current.Windows[0]?.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Contraseña incorrecta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+
+        // Método para registrarse (invocado desde el code-behind)
         public void Registrarse()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
@@ -73,21 +97,28 @@ namespace Chef.View
                 return;
             }
 
-            if (_usuariosRegistrados.ContainsKey(Usuario))
+            try
             {
-                MessageBox.Show("Este usuario ya está registrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (_repositorio.UsuarioExiste(Usuario))
+                {
+                    MessageBox.Show("Este usuario ya está registrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                _repositorio.RegistrarUsuario(Usuario, Contraseña);
+                MessageBox.Show("Usuario registrado exitosamente.", "Registro", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                ListaRecetas listaRecetas = new ListaRecetas(); // Ajusta el constructor si es necesario
+                listaRecetas.Show();
+                Application.Current.Windows[0]?.Close();
             }
-
-            _usuariosRegistrados[Usuario] = Contraseña;
-            MessageBox.Show("Usuario registrado exitosamente.", "Registro", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            ListaRecetas listaRecetas = new ListaRecetas();
-            listaRecetas.Show();
-            Application.Current.Windows[0]?.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al registrar el usuario: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
