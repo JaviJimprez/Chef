@@ -9,7 +9,7 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Estilo personalizado para Rectangle con degradado -->
+        <!-- Estilo para Rectangle con degradado -->
         <Style x:Key="RectangleDegradado" TargetType="Rectangle">
             <Setter Property="Fill">
                 <Setter.Value>
@@ -22,7 +22,7 @@
             <Setter Property="StrokeThickness" Value="2"/>
         </Style>
 
-        <!-- Estilo personalizado para botón con degradado -->
+        <!-- Estilo para botón con degradado -->
         <Style x:Key="Botongradiente" TargetType="Button">
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="50"/>
@@ -52,7 +52,6 @@
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <!-- Cambiar el fondo al pasar el mouse -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Border" Property="Background">
                                     <Setter.Value>
@@ -63,7 +62,6 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
-                            <!-- Cambiar el fondo al hacer clic -->
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Border" Property="Background">
                                     <Setter.Value>
@@ -82,28 +80,29 @@
     </Window.Resources>
 
     <Grid Background="Wheat" Margin="10">
-        <!-- Definición de filas y columnas para organizar los controles -->
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <!-- Encabezado: Rectangle -->
+            <!-- Título (Rectangle con texto) -->
             <RowDefinition Height="Auto"/>
             <!-- Campos de entrada -->
             <RowDefinition Height="Auto"/>
             <!-- Botones -->
             <RowDefinition Height="Auto"/>
-            <!-- Etiqueta -->
+            <!-- Etiqueta para lista -->
             <RowDefinition Height="*"/>
             <!-- ListBox -->
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <!-- Rectangle con degradado en el encabezado -->
-        <Rectangle Grid.Row="0" Height="50" Style="{StaticResource RectangleDegradado}" Margin="0,0,0,10"/>
+        <!-- Encabezado con degradado y título -->
+        <Grid Grid.Row="0">
+            <Rectangle Height="50" Style="{StaticResource RectangleDegradado}" />
+            <!-- Texto superpuesto al Rectangle -->
+            <TextBlock Text="Ingredientes" FontSize="28" FontWeight="Bold" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
 
         <!-- Sección de campos de entrada -->
-        <Grid Grid.Row="1" Margin="0,0,0,10">
+        <Grid Grid.Row="1" Margin="0,10,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -133,8 +132,8 @@
             <Button Content="Añadir Ingrediente" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAñadirIngrediente_Click"/>
         </StackPanel>
 
-        <!-- Etiqueta de encabezado para la lista -->
-        <Label Grid.Row="3" Content="Ingredientes" HorizontalAlignment="Left" Margin="10,0,0,10" FontSize="36"/>
+        <!-- Etiqueta para la lista -->
+        <Label Grid.Row="3" Content="Lista de Ingredientes" HorizontalAlignment="Left" Margin="10,0,0,10" FontSize="36"/>
 
         <!-- ListBox para mostrar la lista de ingredientes -->
         <ListBox Grid.Row="4" Margin="10" ItemsSource="{Binding ListaIngredientes}"/>
