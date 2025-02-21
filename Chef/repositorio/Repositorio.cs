@@ -84,24 +84,6 @@ namespace Chef.Data
         }
 
         /// <summary>
-        /// Registra un nuevo usuario con el nombre y la contraseña indicados.
-        /// </summary>
-        public void RegistrarUsuario(string nombre, string contrasenia)
-        {
-            using (MySqlConnection conn = new MySqlConnection(_connectionString))
-            {
-                conn.Open();
-                string query = "INSERT INTO usuario (nombre, contrasenia) VALUES (@nombre, @contrasenia)";
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@nombre", nombre);
-                    cmd.Parameters.AddWithValue("@contrasenia", contrasenia);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        /// <summary>
         /// Obtiene las recetas del usuario indicado.
         /// </summary>
         public List<Receta> ObtenerRecetasPorUsuario()
@@ -241,7 +223,6 @@ namespace Chef.Data
 
         public void InicioSesion(String nombre, String contrasenia)
         {
-            MessageBox.Show(nombre+" "+contrasenia);
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
                 conn.Open();
@@ -267,6 +248,25 @@ namespace Chef.Data
                 }
             }
         }
+
+        public bool RegistrarUsuario(string nombre, string contrasenia)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"INSERT INTO usuario (nombre, contrasenia) VALUES (@nombre, @contrasenia)";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@contrasenia", contrasenia);
+
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+                    return filasAfectadas > 0;
+                }
+            }
+        }
+
 
 
     }

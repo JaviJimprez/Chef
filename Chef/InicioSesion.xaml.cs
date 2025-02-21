@@ -25,7 +25,7 @@ namespace Chef
         private void BtnRegistrarse_Click(object sender, RoutedEventArgs e)
         {
 
-            ViewModel.Registrarse();
+            ViewModel.RegistrarUsuario();
         }
 
     }
