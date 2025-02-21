@@ -135,7 +135,7 @@ namespace Chef.Data
             {
                 conn.Open();
                 string query = @"INSERT INTO recetas (nombre, duracion, descripcion, dificultad, id_usuario_recetas)
-                                 VALUES (@nombre, @tiempo, @descripcion, @dificultad, @id_usuario_recetas);
+                                 VALUES (@nombre, @duracion, @descripcion, @dificultad, @id_usuario_recetas);
                                  SELECT LAST_INSERT_ID();";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -206,7 +206,7 @@ namespace Chef.Data
         }
 
         // Método para insertar un nuevo ingrediente y retornar su id
-        public int InsertarIngrediente(Ingredientes ingrediente)
+        public int InsertarIngrediente(Ingrediente ingrediente)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
@@ -221,9 +221,6 @@ namespace Chef.Data
             }
         }
 
-        internal int InsertarIngrediente(Ingrediente ing)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

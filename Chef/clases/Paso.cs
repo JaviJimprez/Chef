@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.clases
 {
-    internal class Paso
+    public class Paso
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
