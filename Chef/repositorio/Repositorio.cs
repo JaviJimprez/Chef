@@ -11,7 +11,7 @@ namespace Chef.Data
     {
         private readonly string _connectionString;
 
-        public Repositorio()
+        public Repositorio() 
         {
             _connectionString = ConfigurationManager.ConnectionStrings["MySQLPersonaje"].ConnectionString;
         }
