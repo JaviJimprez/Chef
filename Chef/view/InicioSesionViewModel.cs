@@ -72,7 +72,7 @@ namespace Chef.View
                     MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     // Abre ListaRecetas pasando el idUsuario
-                    ListaRecetas listaRecetas = new ListaRecetas(idUsuario);
+                    ListaRecetas listaRecetas = new ListaRecetas();
                     listaRecetas.Show();
                     Application.Current.Windows[0]?.Close();
                 }
@@ -85,6 +85,15 @@ namespace Chef.View
             {
                 MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public void InicioSesion()
+        {
+            _repositorio.InicioSesion(Usuario, Contraseña);
+
+            ListaRecetas listaRecetas = new ListaRecetas();
+            listaRecetas.Show();
+            Application.Current.Windows[0]?.Close();
         }
 
 

@@ -15,7 +15,7 @@ namespace Chef.viewmodels
         public IngredienteRecetaViewModel()
         {
             _ingredienteReceta = new IngredienteReceta();
-            string connectionString = ConfigurationManager.ConnectionStrings["MySQLPersonaje"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["mariadb"].ConnectionString;
             _service = new Repositorio.IngredienteRecetaService(connectionString);
             _repositorioMain = new Repositorio();
             ListaIngredientes = new ObservableCollection<IngredienteReceta>();

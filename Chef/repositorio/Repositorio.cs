@@ -3,7 +3,9 @@ using System.Configuration;
 using MySql.Data.MySqlClient;
 using Chef.clases;
 using Chef.models;
-using WpfApp2; // Asegúrate de que IngredienteReceta se encuentre aquí
+using WpfApp2;
+using Chef.Singleton;
+using System.Windows; // Asegúrate de que IngredienteReceta se encuentre aquí
 
 namespace Chef.Data
 {
@@ -13,7 +15,7 @@ namespace Chef.Data
 
         public Repositorio()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["MySQLPersonaje"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["mariadb"].ConnectionString;
         }
 
         public int ObtenerIdUsuario(string nombre)
@@ -30,7 +32,20 @@ namespace Chef.Data
                 }
             }
         }
-
+        public int ObtenerDatosUsuario(string nombre)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT id, nombre, contrasenia FROM usuario WHERE nombre = @nombre";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    object result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : -1;
+                }
+            }
+        }
 
         /// <summary>
         /// Verifica si existe un usuario con el nombre especificado.
@@ -89,7 +104,7 @@ namespace Chef.Data
         /// <summary>
         /// Obtiene las recetas del usuario indicado.
         /// </summary>
-        public List<Receta> ObtenerRecetasPorUsuario(int idUsuario)
+        public List<Receta> ObtenerRecetasPorUsuario()
         {
             List<Receta> recetas = new List<Receta>();
 
@@ -101,7 +116,7 @@ namespace Chef.Data
                                  WHERE id_usuario_recetas = @idUsuario";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    cmd.Parameters.AddWithValue("@idUsuario", UsuarioIniciado.Id);
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -131,11 +146,13 @@ namespace Chef.Data
         /// <returns>Id generado por la base de datos</returns>
         public int InsertarReceta(Receta receta)
         {
+            MessageBox.Show(receta.Nombre+""+receta.Tiempo + "" + receta.Dificultad + "" + receta.Descripcion + "" +UsuarioIniciado.Id);
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
+
                 conn.Open();
                 string query = @"INSERT INTO recetas (nombre, duracion, descripcion, dificultad, id_usuario_recetas)
-                                 VALUES (@nombre, @tiempo, @descripcion, @dificultad, @id_usuario_recetas);
+                                 VALUES (@nombre, @duracion, @descripcion, @dificultad, @id_usuario_recetas);
                                  SELECT LAST_INSERT_ID();";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -143,8 +160,9 @@ namespace Chef.Data
                     cmd.Parameters.AddWithValue("@duracion", receta.Tiempo);
                     cmd.Parameters.AddWithValue("@descripcion", receta.Descripcion);
                     cmd.Parameters.AddWithValue("@dificultad", receta.Dificultad);
-                    cmd.Parameters.AddWithValue("@id_usuario_recetas", receta.IdUsuarioReceta);
+                    cmd.Parameters.AddWithValue("@id_usuario_recetas", UsuarioIniciado.Id);
 
+                    //cmd.ExecuteNonQuery();
                     int id = Convert.ToInt32(cmd.ExecuteScalar());
                     return id;
                 }
@@ -206,7 +224,7 @@ namespace Chef.Data
         }
 
         // Método para insertar un nuevo ingrediente y retornar su id
-        public int InsertarIngrediente(Ingredientes ingrediente)
+       public int InsertarIngrediente(Ingrediente ingrediente)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
@@ -221,9 +239,35 @@ namespace Chef.Data
             }
         }
 
-        internal int InsertarIngrediente(Ingrediente ing)
+        public void InicioSesion(String nombre, String contrasenia)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(nombre+" "+contrasenia);
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"SELECT id, nombre, contrasenia FROM usuario WHERE nombre = @nombre AND contrasenia = @contrasenia";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@contrasenia", contrasenia);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            UsuarioIniciado.Id = reader.GetInt32("id");
+                            UsuarioIniciado.Nombre = reader.GetString("nombre");
+                            UsuarioIniciado.Contrasenia = reader.GetString("contrasenia");
+                            
+                        }
+
+                    }
+                }
+            }
         }
+
+
     }
 }

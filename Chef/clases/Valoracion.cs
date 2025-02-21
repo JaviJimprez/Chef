@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef
 {
-    class Valoracion
+    public class Valoracion
     {
 
         public int Id { get; set; }

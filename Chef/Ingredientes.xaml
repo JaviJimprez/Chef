@@ -10,7 +10,7 @@
 
     <Window.Resources>
         <!-- Estilo para Rectangle con degradado -->
-        <Style x:Key="RectangleDegradado" TargetType="Rectangle">
+        <Style x:Key="RectangleDegradado2" TargetType="Rectangle">
             <Setter Property="Fill">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -44,7 +44,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Border x:Name="Border" 
+                            <Border x:Name="Border2" 
                                     Background="{TemplateBinding Background}" 
                                     CornerRadius="20" 
                                     BorderBrush="{TemplateBinding BorderBrush}" 
@@ -53,7 +53,7 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background">
+                                <Setter TargetName="Border2" Property="Background">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="LightYellow" Offset="0"/>
@@ -63,7 +63,7 @@
                                 </Setter>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background">
+                                <Setter TargetName="Border2" Property="Background">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                             <GradientStop Color="Orange" Offset="0"/>
@@ -95,7 +95,7 @@
 
         <!-- Encabezado con degradado y título -->
         <Grid Grid.Row="0">
-            <Rectangle Height="50" Style="{StaticResource RectangleDegradado}" />
+            <Rectangle Height="50" Style="{StaticResource RectangleDegradado2}" />
             <!-- Texto superpuesto al Rectangle -->
             <TextBlock Text="Ingredientes" FontSize="28" FontWeight="Bold" 
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
