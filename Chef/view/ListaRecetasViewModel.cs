@@ -13,9 +13,8 @@ namespace CocinaRecetas.view
 
         public ObservableCollection<Receta> Recetas { get; set; }
 
-        public ListaRecetasViewModel(int idUsuario)
+        public ListaRecetasViewModel()
         {
-            _idUsuario = idUsuario;
             _repositorio = new Repositorio();
             Recetas = new ObservableCollection<Receta>();
             CargarRecetas();
@@ -23,7 +22,7 @@ namespace CocinaRecetas.view
 
         public void CargarRecetas()
         {
-            List<Receta> recetasDesdeBD = _repositorio.ObtenerRecetasPorUsuario(_idUsuario);
+            List<Receta> recetasDesdeBD = _repositorio.ObtenerRecetasPorUsuario();
             Recetas.Clear();
             foreach (var rec in recetasDesdeBD)
             {

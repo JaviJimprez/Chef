@@ -12,12 +12,14 @@ namespace Chef
     {
         private Receta _receta; // Modo edición (opcional)
 
+        public CrearRecetaViewModel ViewModel { get; set; }
         // Constructor por defecto: para crear una nueva receta
         public CrearReceta()
         {
             InitializeComponent();
             // Asigna el DataContext con el ViewModel; usa 1 como ejemplo para el id del usuario
-            DataContext = new CrearRecetaViewModel(1);
+            ViewModel = new CrearRecetaViewModel();
+            DataContext = ViewModel;
         }
 
         // Constructor para editar una receta existente

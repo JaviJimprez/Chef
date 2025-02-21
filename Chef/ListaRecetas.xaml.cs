@@ -12,14 +12,11 @@ namespace Chef
     {
         public ListaRecetasViewModel ViewModel { get; set; }
 
-        // Constructor sin parámetros: usa un id de usuario por defecto (por ejemplo, 1)
-        public ListaRecetas() : this(1) { }
-
         // Constructor que recibe el id del usuario
-        public ListaRecetas(int idUsuario)
+        public ListaRecetas()
         {
             InitializeComponent();
-            ViewModel = new ListaRecetasViewModel(idUsuario);
+            ViewModel = new ListaRecetasViewModel();
             DataContext = ViewModel;
             lsRecetas.ItemsSource = ViewModel.Recetas;
             lsRecetas.SelectionChanged += lsRecetas_SelectionChanged;
