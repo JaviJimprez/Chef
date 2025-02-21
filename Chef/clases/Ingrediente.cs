@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chef.clases
 {
-    internal class Ingrediente
+    public class Ingrediente
     {
         public string Nombre { get; set; }
        

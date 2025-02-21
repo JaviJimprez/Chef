@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace Chef
 {
-    class Usuario
+    public class Usuario
     {
         public string Nombre { get; set; }
         public string Contraseña { get; private set; }
