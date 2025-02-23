@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Chef"
         mc:Ignorable="d"
         Title="Reseñas" WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
         <Style x:Key="BotonPersonalizado" TargetType="Button">
             <Setter Property="Width" Value="150"/>
@@ -21,9 +21,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="Border" CornerRadius="17" 
-                Background="{TemplateBinding Background}" 
-                BorderBrush="{TemplateBinding BorderBrush}" 
-                BorderThickness="{TemplateBinding BorderThickness}">
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -61,29 +61,41 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Content="Reseña de la Receta" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Center" FontSize="24" Margin="0,20" Grid.Row="0"/>
+            <Label Content="Reseña de la Receta" Foreground="Black" FontWeight="Bold" 
+                   HorizontalAlignment="Center" FontSize="24" Margin="0,20" Grid.Row="0"/>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="330" Margin="0,20">
                 <StackPanel Margin="0,10" HorizontalAlignment="Center">
-                    <Label Content="Puntuación (1-5 estrellas)" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                        <Image x:Name="Star1" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand" MouseEnter="Star_MouseEnter" MouseLeave="Star_MouseLeave" MouseLeftButtonDown="Star_MouseClick" Tag="1"/>
-                        <Image x:Name="Star2" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand" MouseEnter="Star_MouseEnter" MouseLeave="Star_MouseLeave" MouseLeftButtonDown="Star_MouseClick" Tag="2"/>
-                        <Image x:Name="Star3" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand" MouseEnter="Star_MouseEnter" MouseLeave="Star_MouseLeave" MouseLeftButtonDown="Star_MouseClick" Tag="3"/>
-                        <Image x:Name="Star4" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand" MouseEnter="Star_MouseEnter" MouseLeave="Star_MouseLeave" MouseLeftButtonDown="Star_MouseClick" Tag="4"/>
-                        <Image x:Name="Star5" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand" MouseEnter="Star_MouseEnter" MouseLeave="Star_MouseLeave" MouseLeftButtonDown="Star_MouseClick" Tag="5"/>
+                    <Label Content="Puntuación (1-5 estrellas)" Foreground="Black" FontWeight="Bold" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Image x:Name="Star1" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand"
+                       MouseLeftButtonDown="Star_MouseClick" MouseEnter="Star_MouseEnter" Tag="1"/>
+                        <Image x:Name="Star2" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand"
+                       MouseLeftButtonDown="Star_MouseClick" MouseEnter="Star_MouseEnter" Tag="2"/>
+                        <Image x:Name="Star3" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand"
+                       MouseLeftButtonDown="Star_MouseClick" MouseEnter="Star_MouseEnter" Tag="3"/>
+                        <Image x:Name="Star4" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand"
+                       MouseLeftButtonDown="Star_MouseClick" MouseEnter="Star_MouseEnter" Tag="4"/>
+                        <Image x:Name="Star5" Source="img/estrella.png" Width="40" Height="40" Cursor="Hand"
+                       MouseLeftButtonDown="Star_MouseClick" MouseEnter="Star_MouseEnter" Tag="5"/>
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Margin="0,10">
-                    <Label Content="Comentario" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBox x:Name="txtComentario" Width="300" Height="100" TextWrapping="Wrap" AcceptsReturn="True" 
-                           Background="White" Foreground="Black" BorderBrush="Black"/>
+                    <Label Content="Comentario" Foreground="Black" FontWeight="Bold" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBox Width="300" Height="100" TextWrapping="Wrap" AcceptsReturn="True" 
+                             Background="White" Foreground="Black" BorderBrush="Black"
+                             Text="{Binding Comentario, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
-                    <Button Content="Enviar Reseña" Style="{StaticResource BotonPersonalizado}" Margin="0,0,10,0"/>
-                    <Button Content="Cancelar" Style="{StaticResource BotonPersonalizado}" Margin="10,0,0,0"/>
+                    <Button Content="Enviar Reseña" Style="{StaticResource BotonPersonalizado}" 
+                            Command="{Binding AgregarValoracionCommand}" Margin="0,0,10,0"/>
+                    <Button Content="Cancelar" Style="{StaticResource BotonPersonalizado}" 
+                            Click="CerrarVentana" Margin="10,0,0,0"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
