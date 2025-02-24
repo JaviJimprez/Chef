@@ -119,7 +119,15 @@
                 <StackPanel Orientation="Vertical" Margin="29,0,0,6" Grid.Column="1">
                     <ListBox Height="100"/>
                     <Button Style="{StaticResource BotonPersonalizado}" Margin="0,10,0,0" FontSize="12" Content="Agregar Ingrediente" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="AgregarIngrediente_Click"/>
-                    <ListBox Height="100" Margin="0,10,0,0"/>
+                    <ListBox ItemsSource="{Binding Pasos}" Height="100" Margin="0,10,0,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Nombre}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <Button Style="{StaticResource BotonPersonalizado}" Margin="0,10,0,0" FontSize="12" Content="Agregar Paso" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="AgregarPasos_Click"/>
                 </StackPanel>
             </Grid>

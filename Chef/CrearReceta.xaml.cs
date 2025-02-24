@@ -51,6 +51,11 @@ namespace Chef
             var ventanaEmergente = new VentanaEmergente();
             ventanaEmergente.Owner = this;
             ventanaEmergente.ShowDialog();
+
+            if (ventanaEmergente.ShowDialog() == true)
+            {
+                var pasosSeleccionados = ventanaEmergente.ViewModel.Pasos; // Obtienes la lista de pasos
+            }
         }
 
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)

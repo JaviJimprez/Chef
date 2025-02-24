@@ -1,39 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chef.clases;
+using Chef.view;
+using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WpfApp2
 {
-    /// <summary>
-    /// Lógica de interacción para VentanaEmergente.xaml
-    /// </summary>
     public partial class VentanaEmergente : Window
     {
+        public VentanaPasosViewModel ViewModel { get; }
         public VentanaEmergente()
         {
             InitializeComponent();
+            ViewModel = new VentanaPasosViewModel();
+            ViewModel.OnAceptarCerrando += ViewModel_OnAceptarCerrando;
+            DataContext = ViewModel;
         }
 
-        private void cbPasos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ViewModel_OnAceptarCerrando(ObservableCollection<Paso> pasos)
         {
-
+            this.DialogResult = true; // Cierra la ventana si se abrió con ShowDialog()
+            this.Close();
         }
-
-        private void AceptarRecetaBtn_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        
     }
 }
