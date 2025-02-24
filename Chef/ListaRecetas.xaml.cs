@@ -1,19 +1,20 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Chef.clases;
 using Chef.models;
 using CocinaRecetas.view;
 
+
+
 namespace Chef
 {
-    /// <summary>
-    /// Lógica de interacción para ListaRecetas.xaml
-    /// </summary>
     public partial class ListaRecetas : Window
     {
         public ListaRecetasViewModel ViewModel { get; set; }
 
-        // Constructor que recibe el id del usuario
-        public ListaRecetas()
+        public ListaRecetas() : this(1) { }
+
+        public ListaRecetas(int idUsuario)
         {
             InitializeComponent();
             ViewModel = new ListaRecetasViewModel();
@@ -22,14 +23,23 @@ namespace Chef
             lsRecetas.SelectionChanged += lsRecetas_SelectionChanged;
         }
 
+        private void lsRecetas_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (lsRecetas.SelectedItem is Receta recetaSeleccionada)
+            {
+                // Abre la ventana Pasos.xaml y le pasa la receta seleccionada
+                Pasos ventanaPasos = new Pasos(recetaSeleccionada);
+                ventanaPasos.Owner = this;
+                ventanaPasos.ShowDialog();
+            }
+        }
+
         private void BtnNuevaReceta_Click(object sender, RoutedEventArgs e)
         {
             CrearReceta ventanaCrearReceta = new CrearReceta();
             ventanaCrearReceta.Owner = this;
-            // Mostrar como diálogo para poder usar DialogResult
             if (ventanaCrearReceta.ShowDialog() == true)
             {
-                // Refrescar la lista de recetas
                 ViewModel.CargarRecetas();
             }
         }
@@ -41,7 +51,6 @@ namespace Chef
                 CrearReceta ventanaEditar = new CrearReceta(recetaSeleccionada);
                 ventanaEditar.Owner = this;
                 ventanaEditar.ShowDialog();
-                // Si editas la receta, podrías refrescar la lista también
                 ViewModel.CargarRecetas();
             }
             else

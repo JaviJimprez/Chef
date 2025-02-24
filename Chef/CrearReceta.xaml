@@ -87,9 +87,9 @@
                                  Foreground="Black" CaretBrush="LightGray" BorderBrush="DarkGray" AcceptsReturn="True" 
                                  Height="28" Margin="0,0,0,20" Width="110" TextWrapping="Wrap" BorderThickness="1"/>
                         <TextBlock Text="mins." Margin="10,0,0,20" VerticalAlignment="Center" FontSize="19"/>
-                        <Button Content="Añadir Imagen:" Margin="200,0,0,20" VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                FontSize="13" Style="{StaticResource BotonPersonalizado}" Height="30"/>
-                        <TextBox Width="280" Height="30" Margin="20,0,0,20" VerticalAlignment="Center"/>
+                        <Button x:Name="botonImagen" Content="Añadir Imagen:" Margin="200,0,0,20" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                FontSize="13" Style="{StaticResource BotonPersonalizado}" Height="30" Click="BotonImagen_Click"/>
+                        <TextBox x:Name="imgTxtbox"  Width="280" Height="30" Margin="20,0,0,20" VerticalAlignment="Center"/>
                     </StackPanel>
                     <TextBox Name="txtDescripcion" 
                              Text="{Binding Descripcion, UpdateSourceTrigger=PropertyChanged}" 

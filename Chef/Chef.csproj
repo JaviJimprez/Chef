@@ -49,7 +49,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="img\tarta_queso.jpg" />
-    <Resource Include="img\user_icon.png" />
+    <Content Include="img\user_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
