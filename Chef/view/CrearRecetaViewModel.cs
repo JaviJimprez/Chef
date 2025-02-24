@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
+using Microsoft.Win32;
 using Chef.models;
 using Chef.Data;
 
@@ -29,7 +31,6 @@ namespace Chef.View
             set { _descripcion = value; OnPropertyChanged(nameof(Descripcion)); }
         }
 
-        // Dificultad: entero de 1 a 10
         private int _dificultad;
         public int Dificultad
         {
@@ -37,17 +38,52 @@ namespace Chef.View
             set { _dificultad = value; OnPropertyChanged(nameof(Dificultad)); }
         }
 
-        // Id del usuario que crea la receta
+        private string _imagenBase64;
+        public string ImagenBase64
+        {
+            get => _imagenBase64;
+            set { _imagenBase64 = value; OnPropertyChanged(nameof(ImagenBase64)); }
+        }
+
+        private string _rutaImagen;
+        public string RutaImagen
+        {
+            get => _rutaImagen;
+            set { _rutaImagen = value; OnPropertyChanged(nameof(RutaImagen)); }
+        }
 
         private readonly Repositorio _repositorio;
 
         public CrearRecetaViewModel()
         {
             _repositorio = new Repositorio();
-            // Valor por defecto para dificultad
             Dificultad = 1;
         }
 
+        public void GuardarImagen()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Seleccionar una imagen",
+                Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                RutaImagen = openFileDialog.FileName; // Mostrar en el TextBox
+
+                try
+                {
+                    byte[] imageBytes = File.ReadAllBytes(RutaImagen);
+                    ImagenBase64 = Convert.ToBase64String(imageBytes);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al convertir la imagen: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
 
         public void SaveRecipe()
         {
@@ -75,16 +111,13 @@ namespace Chef.View
 
             int newId = _repositorio.InsertarReceta(nuevaReceta);
             nuevaReceta.Id = newId;
-            MessageBox.Show("Receta guardada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-            /*
-            try
+
+            if (!string.IsNullOrEmpty(ImagenBase64))
             {
-                
+                _repositorio.GuardarImagenReceta(newId, ImagenBase64);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al guardar la receta: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }*/
+
+            MessageBox.Show("Receta guardada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

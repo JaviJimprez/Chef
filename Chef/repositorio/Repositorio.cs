@@ -13,7 +13,7 @@ namespace Chef.Data
     {
         private readonly string _connectionString;
 
-        public Repositorio()
+        public Repositorio() 
         {
             _connectionString = ConfigurationManager.ConnectionStrings["mariadb"].ConnectionString;
         }
@@ -128,7 +128,6 @@ namespace Chef.Data
         /// <returns>Id generado por la base de datos</returns>
         public int InsertarReceta(Receta receta)
         {
-            MessageBox.Show(receta.Nombre+""+receta.Tiempo + "" + receta.Dificultad + "" + receta.Descripcion + "" +UsuarioIniciado.Id);
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
 
@@ -334,6 +333,20 @@ namespace Chef.Data
                 }
             }
             return valoraciones;
+        }
+        public void GuardarImagenReceta(int recetaId, string imagenBase64)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "UPDATE recetas SET imagen = @imagen WHERE id = @idReceta";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@imagen", imagenBase64);
+                    cmd.Parameters.AddWithValue("@idReceta", recetaId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
 
