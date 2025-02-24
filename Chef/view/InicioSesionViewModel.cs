@@ -41,8 +41,7 @@ namespace Chef.View
             _repositorio = new Repositorio();
         }
 
-        // Método para iniciar sesión (invocado desde el code-behind)
-        public void IniciarSesion()
+        public void InicioSesion()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
             {
@@ -58,28 +57,21 @@ namespace Chef.View
                     return;
                 }
 
-                string contraseñaDesdeBD = _repositorio.ObtenerContrasenia(Usuario);
-                if (contraseñaDesdeBD == Contraseña)
+                if (_repositorio.ObtenerContrasenia(Usuario) == Contraseña)
                 {
-                    // Obtener el id del usuario
-                    int idUsuario = _repositorio.ObtenerIdUsuario(Usuario);
-                    if (idUsuario == -1)
-                    {
-                        MessageBox.Show("No se pudo obtener el ID del usuario.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
+                    _repositorio.InicioSesion(Usuario, Contraseña);
                     MessageBox.Show($"¡Bienvenido, {Usuario}!", "Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Abre ListaRecetas pasando el idUsuario
-                    ListaRecetas listaRecetas = new ListaRecetas(idUsuario);
+                    ListaRecetas listaRecetas = new ListaRecetas();
                     listaRecetas.Show();
+
                     Application.Current.Windows[0]?.Close();
                 }
                 else
                 {
                     MessageBox.Show("Contraseña incorrecta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
             }
             catch (Exception ex)
             {
@@ -87,9 +79,7 @@ namespace Chef.View
             }
         }
 
-
-        // Método para registrarse (invocado desde el code-behind)
-        public void Registrarse()
+        public void RegistrarUsuario()
         {
             if (string.IsNullOrEmpty(Usuario) || string.IsNullOrEmpty(Contraseña))
             {
@@ -101,20 +91,24 @@ namespace Chef.View
             {
                 if (_repositorio.UsuarioExiste(Usuario))
                 {
-                    MessageBox.Show("Este usuario ya está registrado.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("El usuario ya existe. Intente con otro nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                _repositorio.RegistrarUsuario(Usuario, Contraseña);
-                MessageBox.Show("Usuario registrado exitosamente.", "Registro", MessageBoxButton.OK, MessageBoxImage.Information);
+                bool registrado = _repositorio.RegistrarUsuario(Usuario, Contraseña);
 
-                ListaRecetas listaRecetas = new ListaRecetas(); // Ajusta el constructor si es necesario
-                listaRecetas.Show();
-                Application.Current.Windows[0]?.Close();
+                if (registrado)
+                {
+                    MessageBox.Show("Usuario registrado con éxito. Ahora puede iniciar sesión.", "Registro Exitoso", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo registrar el usuario. Intente nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al registrar el usuario: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error al registrar usuario: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

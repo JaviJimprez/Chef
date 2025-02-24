@@ -38,17 +38,16 @@ namespace Chef.View
         }
 
         // Id del usuario que crea la receta
-        public int IdUsuario { get; set; }
 
         private readonly Repositorio _repositorio;
 
-        public CrearRecetaViewModel(int idUsuario)
+        public CrearRecetaViewModel()
         {
-            IdUsuario = idUsuario;
             _repositorio = new Repositorio();
             // Valor por defecto para dificultad
             Dificultad = 1;
         }
+
 
         public void SaveRecipe()
         {
@@ -72,19 +71,20 @@ namespace Chef.View
                 Tiempo = tiempoInt,
                 Descripcion = this.Descripcion,
                 Dificultad = this.Dificultad,
-                IdUsuarioReceta = this.IdUsuario,
             };
 
+            int newId = _repositorio.InsertarReceta(nuevaReceta);
+            nuevaReceta.Id = newId;
+            MessageBox.Show("Receta guardada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+            /*
             try
             {
-                int newId = _repositorio.InsertarReceta(nuevaReceta);
-                nuevaReceta.Id = newId;
-                MessageBox.Show("Receta guardada exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al guardar la receta: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

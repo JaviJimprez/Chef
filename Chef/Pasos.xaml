@@ -4,10 +4,80 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="av" 
+     xmlns:local="clr-namespace:Chef"
     x:Class="SeguirReceta.MainWindow"
     Title="Pasos"
     Height="600" Width="1000">
+    <Window.Resources>
+        <!-- Estilo para ListBox -->
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#FFE5A1"/>
+            <!-- Naranja claro -->
+            <Setter Property="BorderBrush" Value="DarkOrange"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
 
+        <!-- Estilo para los items de ListBox -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="DarkOrange"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="2"/>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <!-- Al pasar el mouse -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFD180"/>
+                    <!-- Naranja más oscuro -->
+                </Trigger>
+
+                <!-- Cuando está seleccionado -->
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#FFE5A1"/>
+            <!-- Naranja claro -->
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="2,0,2,0"/>
+            <Setter Property="BorderBrush" Value="DarkOrange"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+            <!-- Esta propiedad funciona con estilos predeterminados -->
+            <Setter Property="FontWeight" Value="Normal"/>
+
+            <Style.Triggers>
+                <!-- Al pasar el mouse -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFD180"/>
+                    <!-- Color más oscuro al pasar el mouse -->
+                </Trigger>
+
+                <!-- Cuando está seleccionado -->
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <!-- Fondo con degradado -->
         <Grid.Background>
@@ -60,7 +130,7 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal"
                             HorizontalAlignment="Center" Margin="5">
                     <!-- Padding corregido -->
-                    <Label x:Name="lbDificultad" Content="💀10"
+                    <Label Name="lbDificultad2" Content="🔥10"
                            FontSize="30"
                            Foreground="Black"/>
 
@@ -68,7 +138,7 @@
                            FontSize="30"
                            Foreground="Black"/>
 
-                    <Label x:Name="lbDuracion" Content="50 min."
+                    <Label Name="lbDuracion" Content="50 min."
                            FontSize="25"
                            Foreground="Black"/>
                 </StackPanel>
