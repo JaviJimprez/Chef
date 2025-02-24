@@ -89,7 +89,8 @@
                 <Button Name="btEditarReceta" Content="Editar" Style="{StaticResource BotonPersonalizado}" Margin="10,0,10,0" Click="BtnEditar_Click" Visibility="Hidden"/>
             </StackPanel>
 
-            <ListBox Name="lsRecetas" Margin="10,130,10,10" ItemsSource="{Binding Recetas}" Background="FloralWhite">
+            <ListBox Name="lsRecetas" Margin="10,130,10,10" ItemsSource="{Binding Recetas}" Background="FloralWhite" MouseDoubleClick="lsRecetas_MouseDoubleClick">
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="10">
