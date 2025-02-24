@@ -267,6 +267,74 @@ namespace Chef.Data
             }
         }
 
+        public int InsertarValoracion(int recetaId, int usuarioId, double estrellas, string comentario)
+        {
+            if (recetaId <= 0 || usuarioId <= 0 || estrellas < 0)
+                throw new ArgumentException("Los valores de recetaId, usuarioId y estrellas deben ser válidos.");
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"INSERT INTO valoracion (id_recetas_valoracion, id_usuario_valoracion, estrellas, comentario) 
+                 VALUES (@id_recetas_valoracion, @id_usuario_valoracion, @estrellas, @comentario); 
+                 SELECT LAST_INSERT_ID();";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id_recetas_valoracion", recetaId);
+                    cmd.Parameters.AddWithValue("@id_usuario_valoracion", usuarioId);
+                    cmd.Parameters.AddWithValue("@estrellas", estrellas);
+
+                    // Si comentario es null, pasamos DBNull.Value
+                    if (string.IsNullOrEmpty(comentario))
+                        cmd.Parameters.AddWithValue("@comentario", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@comentario", comentario);
+
+                    try
+                    {
+                        return Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error al insertar valoración: {ex.Message}");
+                        return -1; // Indicar error
+                    }
+                }
+            }
+        }
+
+        public List<Valoracion> ObtenerValoracionesPorReceta(int recetaId)
+        {
+            List<Valoracion> valoraciones = new List<Valoracion>();
+            if (recetaId <= 0)
+                throw new ArgumentException("El ID de la receta debe ser mayor a 0.");
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"SELECT id, id_recetas_valoracion, id_usuario_valoracion, estrellas, comentario 
+                 FROM valoracion WHERE id_recetas_valoracion = @id_recetas_valoracion";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id_recetas_valoracion", recetaId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            valoraciones.Add(new Valoracion
+                            {
+                                Id = reader.GetInt32("id"),
+                                RecetaId = reader.GetInt32("id_recetas_valoracion"),
+                                UsuarioId = reader.GetInt32("id_usuario_valoracion"),
+                                Estrellas = reader.GetDouble("estrellas"),
+                                Comentario = reader.IsDBNull(reader.GetOrdinal("comentario")) ? null : reader.GetString("comentario"),
+                            });
+                        }
+                    }
+                }
+            }
+            return valoraciones;
+        }
 
 
     }
