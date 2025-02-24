@@ -1,7 +1,11 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 using Chef.models;
 using Chef.View;
+using Microsoft.Win32;
 using WpfApp2; // Para CrearRecetaViewModel
+using System.IO;
+
 
 namespace Chef
 {
@@ -12,12 +16,14 @@ namespace Chef
     {
         private Receta _receta; // Modo edición (opcional)
 
+        public CrearRecetaViewModel ViewModel { get; set; }
         // Constructor por defecto: para crear una nueva receta
         public CrearReceta()
         {
             InitializeComponent();
             // Asigna el DataContext con el ViewModel; usa 1 como ejemplo para el id del usuario
-            DataContext = new CrearRecetaViewModel(1);
+            ViewModel = new CrearRecetaViewModel();
+            DataContext = ViewModel;
         }
 
         // Constructor para editar una receta existente
@@ -45,6 +51,11 @@ namespace Chef
             var ventanaEmergente = new VentanaEmergente();
             ventanaEmergente.Owner = this;
             ventanaEmergente.ShowDialog();
+
+            if (ventanaEmergente.ShowDialog() == true)
+            {
+                var pasosSeleccionados = ventanaEmergente.ViewModel.Pasos; // Obtienes la lista de pasos
+            }
         }
 
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)
@@ -61,6 +72,14 @@ namespace Chef
         {
             this.DialogResult = false;
             this.Close();
+        }
+
+        private void BotonImagen_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is CrearRecetaViewModel vm)
+            {
+                vm.GuardarImagen();
+            }
         }
     }
 }

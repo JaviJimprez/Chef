@@ -17,7 +17,7 @@ namespace Chef
         public ListaRecetas(int idUsuario)
         {
             InitializeComponent();
-            ViewModel = new ListaRecetasViewModel(idUsuario);
+            ViewModel = new ListaRecetasViewModel();
             DataContext = ViewModel;
             lsRecetas.ItemsSource = ViewModel.Recetas;
             lsRecetas.SelectionChanged += lsRecetas_SelectionChanged;
