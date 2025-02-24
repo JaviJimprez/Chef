@@ -38,9 +38,10 @@ namespace Chef.view
         {
             if (!string.IsNullOrWhiteSpace(NuevoNombre) && !string.IsNullOrWhiteSpace(NuevaDescripcion))
             {
-                Pasos.Add(new Paso(NuevoNombre, NuevaDescripcion));
+                Pasos.Add(new Paso(0, NuevoNombre, 1, NuevaDescripcion, 0)); // Suponiendo id = 0, numPasos = 1, idReceta = 0
                 NuevoNombre = string.Empty;
                 NuevaDescripcion = string.Empty;
+
             }
         }
 

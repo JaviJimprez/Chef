@@ -31,13 +31,7 @@ namespace Chef
         {
             return new List<Paso>
     {
-        new Paso("Preparar ingredientes", 1),
-        new Paso("Sofreír las verduras", 2),
-        new Paso("Añadir el pollo", 3),
-        new Paso("Incorporar el tomate", 4),
-        new Paso("Condimentar", 5),
-        new Paso("Cocinar a fuego lento", 6),
-        new Paso("Servir", 7)
+        
     };
         }
 
