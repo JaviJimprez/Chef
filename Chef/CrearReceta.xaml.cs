@@ -1,7 +1,11 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 using Chef.models;
 using Chef.View;
+using Microsoft.Win32;
 using WpfApp2; // Para CrearRecetaViewModel
+using System.IO;
+
 
 namespace Chef
 {
@@ -63,6 +67,14 @@ namespace Chef
         {
             this.DialogResult = false;
             this.Close();
+        }
+
+        private void BotonImagen_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is CrearRecetaViewModel vm)
+            {
+                vm.GuardarImagen();
+            }
         }
     }
 }
