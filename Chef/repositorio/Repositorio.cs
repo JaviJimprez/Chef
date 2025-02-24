@@ -3,7 +3,6 @@ using System.Configuration;
 using MySql.Data.MySqlClient;
 using Chef.clases;
 using Chef.models;
-using WpfApp2;
 using Chef.Singleton;
 using System.Windows; // Asegúrate de que IngredienteReceta se encuentre aquí
 
@@ -335,6 +334,19 @@ namespace Chef.Data
             }
             return valoraciones;
         }
-
+        public void GuardarImagenReceta(int recetaId, string imagenBase64)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "UPDATE recetas SET imagen = @imagen WHERE id = @idReceta";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@imagen", imagenBase64);
+                    cmd.Parameters.AddWithValue("@idReceta", recetaId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
