@@ -118,8 +118,6 @@
             <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding NombreIngrediente, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Ingrediente ID -->
-            <TextBlock Text="Ingrediente ID:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding IngredienteId, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
 
             <!-- Cantidad -->
             <TextBlock Text="Cantidad:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
