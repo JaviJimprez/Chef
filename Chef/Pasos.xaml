@@ -139,7 +139,7 @@
                            Foreground="Black"/>
 
                     <Label Name="lbDuracion" Content="50 min."
-                           FontSize="25"
+                           FontSize="30"
                            Foreground="Black"/>
                 </StackPanel>
             </Grid>
@@ -216,7 +216,7 @@
                                Text="1/7"
                                FontSize="30"
                                HorizontalAlignment="Center"
-                               VerticalAlignment="Center" Height="40" Width="44"/>
+                               VerticalAlignment="Center" Height="40" Width="57"/>
                 </Grid>
             </TabItem>
         </TabControl>

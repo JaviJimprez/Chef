@@ -3,6 +3,7 @@ using System.Configuration;
 using MySql.Data.MySqlClient;
 using Chef.clases;
 using Chef.models;
+using WpfApp2;
 using Chef.Singleton;
 using System.Windows; // Asegúrate de que IngredienteReceta se encuentre aquí
 
@@ -12,7 +13,7 @@ namespace Chef.Data
     {
         private readonly string _connectionString;
 
-        public Repositorio()
+        public Repositorio() 
         {
             _connectionString = ConfigurationManager.ConnectionStrings["mariadb"].ConnectionString;
         }
@@ -127,7 +128,6 @@ namespace Chef.Data
         /// <returns>Id generado por la base de datos</returns>
         public int InsertarReceta(Receta receta)
         {
-            MessageBox.Show(receta.Nombre+""+receta.Tiempo + "" + receta.Dificultad + "" + receta.Descripcion + "" +UsuarioIniciado.Id);
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
 
@@ -275,8 +275,8 @@ namespace Chef.Data
             {
                 conn.Open();
                 string query = @"INSERT INTO valoracion (id_recetas_valoracion, id_usuario_valoracion, estrellas, comentario) 
-                         VALUES (@id_recetas_valoracion, @id_usuario_valoracion, @estrellas, @comentario); 
-                         SELECT LAST_INSERT_ID();";
+                 VALUES (@id_recetas_valoracion, @id_usuario_valoracion, @estrellas, @comentario); 
+                 SELECT LAST_INSERT_ID();";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id_recetas_valoracion", recetaId);
@@ -312,7 +312,7 @@ namespace Chef.Data
             {
                 conn.Open();
                 string query = @"SELECT id, id_recetas_valoracion, id_usuario_valoracion, estrellas, comentario 
-                         FROM valoracion WHERE id_recetas_valoracion = @id_recetas_valoracion";
+                 FROM valoracion WHERE id_recetas_valoracion = @id_recetas_valoracion";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id_recetas_valoracion", recetaId);
@@ -348,5 +348,73 @@ namespace Chef.Data
                 }
             }
         }
+
+        public List<string> ObtenerIngredientesPorReceta(int recetaId)
+        {
+            List<string> ingredientes = new List<string>();
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"SELECT i.nombre 
+                         FROM ingredientesrecetas ir
+                         JOIN ingredientes i ON ir.id_ingredientes_intermedia = i.id
+                         WHERE ir.id_recetas_intermedia = @recetaId";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@recetaId", recetaId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ingredientes.Add(reader.GetString("nombre"));
+                        }
+                    }
+                }
+            }
+
+            return ingredientes;
+        }
+
+
+        public List<Paso> ObtenerPasosDeLaReceta(int recetaId)
+        {
+            List<Paso> pasos = new List<Paso>();
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"SELECT id, nombre, num_pasos, descripcion 
+                         FROM pasos 
+                         WHERE id_recetas_pasos = @recetaId 
+                         ORDER BY id ASC";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@recetaId", recetaId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            pasos.Add(new Paso(
+                                reader.GetInt32("id"),
+                                reader.GetString("nombre"),
+                                reader.GetInt32("num_pasos"),
+                                reader.GetString("descripcion"),
+                                recetaId
+                            ));
+                        }
+                    }
+                }
+            }
+
+            return pasos;
+        }
+
+
+
     }
 }
