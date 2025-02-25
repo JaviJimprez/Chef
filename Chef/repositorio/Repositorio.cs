@@ -334,6 +334,8 @@ namespace Chef.Data
             }
             return valoraciones;
         }
+
+
         public void GuardarImagenReceta(int recetaId, string imagenBase64)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -347,7 +349,45 @@ namespace Chef.Data
                     cmd.ExecuteNonQuery();
                 }
             }
+
+            Console.WriteLine($"Imagen guardada para receta {recetaId}: {imagenBase64.Substring(0, 100)}...");
         }
+
+        public string ObtenerImagenReceta(int recetaId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT imagen FROM recetas WHERE id = @idReceta";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idReceta", recetaId);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result == null || result == DBNull.Value)
+                    {
+                        Console.WriteLine($"⚠️ No se encontró imagen para la receta {recetaId}");
+                        return null;
+                    }
+
+                    string base64String = result.ToString();
+
+                    // Validar si la cadena tiene al menos 100 caracteres antes de usar Substring
+                    if (base64String.Length > 100)
+                    {
+                        Console.WriteLine($"✅ Imagen recuperada para receta {recetaId}: {base64String.Substring(0, 100)}...");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"✅ Imagen recuperada para receta {recetaId}: {base64String}");
+                    }
+
+                    return base64String;
+                }
+            }
+        }
+
+
 
         public List<string> ObtenerIngredientesPorReceta(int recetaId)
         {

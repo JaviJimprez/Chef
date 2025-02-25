@@ -101,7 +101,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Image Source="{Binding Imagen}" Width="50" Height="50" Grid.Column="0" />
+                            <Image x:Name="imagenlista" Source="{Binding ImagenReceta}" Width="50" Height="50" Grid.Column="0" />
 
                             <StackPanel Grid.Column="1" Margin="10,0">
                                 <TextBlock Text="{Binding Nombre}" FontWeight="Bold" FontSize="14" />

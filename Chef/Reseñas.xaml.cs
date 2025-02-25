@@ -15,12 +15,10 @@ namespace Chef
         private string rutaEstrellaLlena = "img/rellena.png";
         private int _recetaId;
 
-        public Reseñas() : this(1) { } // en cuyo caso se borraria esta que esta para pruebas
-
         public Reseñas(int recetaId)
         {
             InitializeComponent();
-            //_recetaId = recetaId; //esta linea se descomentara cuando se haya pasado el id de la receta a esta clase
+            _recetaId = recetaId;
             _viewModel = new ValoracionViewModel(recetaId);
             DataContext = _viewModel;
 
@@ -57,8 +55,10 @@ namespace Chef
         private void Star_MouseClick(object sender, MouseButtonEventArgs e)
         {
             valoracion = int.Parse(((Image)sender).Tag.ToString());
+            _viewModel.Estrellas = valoracion;
             HighlightStars(valoracion);
         }
+
 
         private void HighlightStars(int count)
         {
@@ -87,11 +87,27 @@ namespace Chef
 
         private void GuardarValoracion_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.AgregarValoracionCommand.CanExecute(null))
+            
+            if (_viewModel.Estrellas > 0 && !string.IsNullOrWhiteSpace(_viewModel.Comentario))
             {
-                _viewModel.AgregarValoracionCommand.Execute(null);
+                if (_viewModel.AgregarValoracionCommand.CanExecute(null))
+                {
+                    _viewModel.AgregarValoracionCommand.Execute(null);
+
+                    MessageBox.Show("Reseña guardada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    ListaRecetas listaRecetas = new ListaRecetas();
+                    listaRecetas.Show();
+
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona una valoración y escribe un comentario.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
 
         private void CerrarVentana(object sender, RoutedEventArgs e)
         {
