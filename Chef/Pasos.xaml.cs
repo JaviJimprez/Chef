@@ -25,6 +25,8 @@ namespace Chef
             lbDificultad2.Content = "🔥" + _recetaSeleccionada.Dificultad;
             lbDuracion.Content = _recetaSeleccionada.Tiempo + " min.";
 
+            BtnFinalizar.Visibility = Visibility.Hidden;
+
             // 🔹 Cargar los ingredientes y pasos
             CargarPasosEIngredientes();
         }
@@ -56,8 +58,12 @@ namespace Chef
 
                 // 🔹 Actualizar la barra de progreso
                 pbProgreso.Value = (double)(indice + 1) / _listaPasos.Count * 100;
+
+                // 🔹 Mostrar el botón solo al completar el último paso
+                BtnFinalizar.Visibility = (_indicePasoActual == _listaPasos.Count - 1) ? Visibility.Visible : Visibility.Hidden;
             }
         }
+
 
         private void btAlante_Click(object sender, RoutedEventArgs e)
         {
@@ -76,5 +82,14 @@ namespace Chef
                 MostrarPaso(_indicePasoActual);
             }
         }
+
+        private void BtnFinalizar_Click(object sender, RoutedEventArgs e)
+        {
+            Reseñas reseñas = new Reseñas();
+            reseñas.Show();
+            this.Close();
+        }
+
+        
     }
 }
