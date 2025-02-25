@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Chef.clases;
+using Chef.Data;
 using Chef.models;
 using CocinaRecetas.view;
 
@@ -66,5 +67,38 @@ namespace Chef
         {
             btEditarReceta.Visibility = lsRecetas.SelectedItem != null ? Visibility.Visible : Visibility.Hidden;
         }
+
+        private void BtBorrarReceta_Click(object sender, RoutedEventArgs e)
+        {
+            if (lsRecetas.SelectedItem is Receta recetaSeleccionada)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    $"¿Estás seguro de que deseas eliminar la receta '{recetaSeleccionada.Nombre}'?",
+                    "Confirmar eliminación",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Repositorio repositorio = new Repositorio();
+                    bool eliminada = repositorio.BorrarReceta(recetaSeleccionada.Id);
+
+                    if (eliminada)
+                    {
+                        MessageBox.Show("Receta eliminada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                        ViewModel.CargarRecetas(); // 🔹 Recargar la lista de recetas
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hubo un problema al eliminar la receta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione una receta para eliminar.", "Atención", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
     }
 }

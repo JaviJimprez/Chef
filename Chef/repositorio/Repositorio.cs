@@ -416,5 +416,70 @@ namespace Chef.Data
 
 
 
+        public bool BorrarReceta(int recetaId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (MySqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Eliminar ingredientes relacionados con la receta
+                        string deleteIngredientes = "DELETE FROM ingredientesrecetas WHERE id_recetas_intermedia = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteIngredientes, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Eliminar pasos relacionados con la receta
+                        string deletePasos = "DELETE FROM pasos WHERE id_recetas_pasos = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deletePasos, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Eliminar valoraciones de la receta
+                        string deleteValoraciones = "DELETE FROM valoracion WHERE id_recetas_valoracion = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteValoraciones, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Finalmente, eliminar la receta
+                        string deleteReceta = "DELETE FROM recetas WHERE id = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteReceta, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            // Si no se eliminó ninguna fila, la receta no existía
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error al borrar receta: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 }
