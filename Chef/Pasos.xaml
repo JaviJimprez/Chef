@@ -249,9 +249,9 @@
                                FontSize="30"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center" Height="40" Width="57"/>
-                    <Button x:Name="BtnFinalizar" Content="Finalizar" Style="{StaticResource BotonPersonalizado}" 
+                    <Button x:Name="btFinalizar" Content="Finalizar" Style="{StaticResource BotonPersonalizado}" 
                             HorizontalAlignment="Left" Margin="824,0,0,0" Grid.Row="3" 
-                            VerticalAlignment="Center" Click="BtnFinalizar_Click"/>
+                            VerticalAlignment="Center" Click="btFinalizar_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

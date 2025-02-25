@@ -64,7 +64,6 @@ namespace Chef.view
             _repositorio = new Repositorio();
             Valoraciones = new ObservableCollection<Valoracion>(_repositorio.ObtenerValoracionesPorReceta(recetaId));
             RecetaId = recetaId;
-            Estrellas = 1;
             AgregarValoracionCommand = new RelayCommand(AgregarValoracion);
         }
 
