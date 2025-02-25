@@ -479,6 +479,53 @@ namespace Chef.Data
         }
 
 
+        public List<string> ObtenerTodosLosIngredientes()
+        {
+            List<string> ingredientes = new List<string>();
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT nombre FROM ingredientes";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ingredientes.Add(reader.GetString("nombre"));
+                        }
+                    }
+                }
+            }
+
+            return ingredientes;
+        }
+
+
+        public bool InsertarIngrediente2(Ingrediente ingrediente)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "INSERT INTO ingredientes (nombre) VALUES (@nombre)";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", ingrediente.Nombre);
+
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+                    return filasAfectadas > 0;
+                }
+            }
+        }
+
+
+
+
+
+
 
 
     }

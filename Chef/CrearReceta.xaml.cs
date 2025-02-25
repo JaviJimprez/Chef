@@ -39,12 +39,27 @@ namespace Chef
             }
         }
 
+        //private void AgregarIngrediente_Click(object sender, RoutedEventArgs e)
+        //{
+           // Ingredientes ventanaIngredientes = new Ingredientes();
+           // ventanaIngredientes.Owner = this;
+           // ventanaIngredientes.ShowDialog();
+        //}
+
         private void AgregarIngrediente_Click(object sender, RoutedEventArgs e)
         {
             Ingredientes ventanaIngredientes = new Ingredientes();
             ventanaIngredientes.Owner = this;
-            ventanaIngredientes.ShowDialog();
+
+            if (ventanaIngredientes.ShowDialog() == true) // Si el usuario acepta
+            {
+                foreach (var ingrediente in ventanaIngredientes.IngredientesSeleccionados)
+                {
+                    LBIngredientes.Items.Add(ingrediente); // Agrega los ingredientes seleccionados a la ListBox
+                }
+            }
         }
+
 
         private void AgregarPasos_Click(object sender, RoutedEventArgs e)
         {

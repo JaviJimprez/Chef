@@ -115,25 +115,25 @@
 
             <!-- Nombre Ingrediente -->
             <TextBlock Text="Nombre Ingrediente:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding NombreIngrediente, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="TBNombreIngrediente" Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding NombreIngrediente, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Ingrediente ID -->
 
             <!-- Cantidad -->
             <TextBlock Text="Cantidad:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="TBCantidad" Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <!-- Sección de botones -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <Button Content="Aceptar" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAceptar_Click"/>
-            <Button Content="Añadir Ingrediente" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAñadirIngrediente_Click"/>
+            <Button x:Name="BtAceptar" Content="Aceptar" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAceptar_Click"/>
+            <Button x:Name="BtAnadirIngrediente" Content="Añadir Ingrediente" Style="{StaticResource Botongradiente}" Margin="5" Click="BtnAñadirIngrediente_Click"/>
         </StackPanel>
 
         <!-- Etiqueta para la lista -->
         <Label Grid.Row="3" Content="Lista de Ingredientes" HorizontalAlignment="Left" Margin="10,0,0,10" FontSize="36"/>
 
         <!-- ListBox para mostrar la lista de ingredientes -->
-        <ListBox Grid.Row="4" Margin="10" ItemsSource="{Binding ListaIngredientes}"/>
+        <ListBox x:Name="LbIngredientes" Grid.Row="4" Margin="10" ItemsSource="{Binding ListaIngredientes}"/>
     </Grid>
 </Window>
