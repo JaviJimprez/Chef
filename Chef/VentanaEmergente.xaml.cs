@@ -1,7 +1,3 @@
-﻿
-﻿using Chef.clases;
-using Chef.view;
-using System.Collections.ObjectModel;
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,29 +12,23 @@ namespace WpfApp2
 {
     public partial class VentanaEmergente : Window
     {
-        public VentanaPasosViewModel ViewModel { get; }
         private VentanaPasosViewModel _viewModel;
         private Repositorio _repositorio = new Repositorio(); // 🔹 Acceso a la base de datos
         public List<Paso> PasosSeleccionados { get; private set; } = new List<Paso>();
 
-        public VentanaEmergente(int recetaId)
+        public VentanaEmergente()
         {
             InitializeComponent();
-
-            ViewModel = new VentanaPasosViewModel(recetaId);
-            ViewModel.OnAceptarCerrando += ViewModel_OnAceptarCerrando;
-            DataContext = ViewModel;
-
             _viewModel = DataContext as VentanaPasosViewModel;
             if (_viewModel == null)
             {
-                _viewModel = new VentanaPasosViewModel(recetaId);
+                _viewModel = new VentanaPasosViewModel();
                 DataContext = _viewModel;
             }
 
+            // 🔹 Cargar la lista de pasos desde la base de datos (si es necesario)
             lbPasos.ItemsSource = PasosSeleccionados;
         }
-
 
         private void addPasoRecetaBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -63,21 +53,8 @@ namespace WpfApp2
             descripcionTXT.Clear();
         }
 
-        private void ViewModel_OnAceptarCerrando(ObservableCollection<Paso> pasos)
-        {
-            if (pasos != null)
-            {
-                PasosSeleccionados.Clear();
-                PasosSeleccionados.AddRange(pasos);
-
-                lbPasos.ItemsSource = null;
-                lbPasos.ItemsSource = PasosSeleccionados;
-            }
-        }
-
         private void AceptarRecetaBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true; // Cierra la ventana si se abrió con ShowDialog()
             if (Owner is Chef.CrearReceta ventanaCrearReceta)
             {
                 foreach (var paso in PasosSeleccionados)

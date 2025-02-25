@@ -64,13 +64,7 @@ namespace Chef
 
         private void AgregarPasos_Click(object sender, RoutedEventArgs e)
         {
-            if (_receta == null)
-            {
-                MessageBox.Show("Error: No se ha seleccionado una receta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var ventanaEmergente = new VentanaEmergente(_receta.Id); // 🔹 Pasar el ID de la receta
+            var ventanaEmergente = new VentanaEmergente();
             ventanaEmergente.Owner = this;
 
             bool? resultado = ventanaEmergente.ShowDialog(); // Llamar a ShowDialog solo UNA vez
@@ -85,16 +79,15 @@ namespace Chef
         }
 
 
-
         //private void BtnGuardar_Click(object sender, RoutedEventArgs e)
-        // {
-        //     if (DataContext is CrearRecetaViewModel vm)
-        //    {
+       // {
+       //     if (DataContext is CrearRecetaViewModel vm)
+       //    {
         //        vm.SaveRecipe();
-        //         this.DialogResult = true; // Solo se puede establecer cuando la ventana se muestra como diálogo (ShowDialog)
-        //         this.Close();
+       //         this.DialogResult = true; // Solo se puede establecer cuando la ventana se muestra como diálogo (ShowDialog)
+       //         this.Close();
         //    }
-        // }
+       // }
 
         private void BtnDescartar_Click(object sender, RoutedEventArgs e)
         {
