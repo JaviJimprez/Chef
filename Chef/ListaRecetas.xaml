@@ -86,7 +86,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,70,10,0">
                 <Button Name="btNuevaReceta" Content="Nueva Receta" Style="{StaticResource BotonPersonalizado}" Margin="10,0,10,0" Click="BtnNuevaReceta_Click"/>
-                <Button Name="btBorrarReceta" Content="Borrar Receta" Style="{StaticResource BotonPersonalizado}" Margin="10,0,10,0" />
+                <Button Name="btBorrarReceta" Content="Borrar Receta" Style="{StaticResource BotonPersonalizado}" Margin="10,0,10,0" Click="BtBorrarReceta_Click"/>
                 <Button Name="btEditarReceta" Content="Editar" Style="{StaticResource BotonPersonalizado}" Margin="10,0,10,0" Click="BtnEditar_Click" Visibility="Hidden"/>
             </StackPanel>
 
@@ -101,7 +101,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Image Source="{Binding Imagen}" Width="50" Height="50" Grid.Column="0" />
+                            <Image x:Name="imagenlista" Source="{Binding ImagenReceta}" Width="50" Height="50" Grid.Column="0" />
 
                             <StackPanel Grid.Column="1" Margin="10,0">
                                 <TextBlock Text="{Binding Nombre}" FontWeight="Bold" FontSize="14" />

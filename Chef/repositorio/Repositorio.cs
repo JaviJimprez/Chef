@@ -334,6 +334,8 @@ namespace Chef.Data
             }
             return valoraciones;
         }
+
+
         public void GuardarImagenReceta(int recetaId, string imagenBase64)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -347,7 +349,45 @@ namespace Chef.Data
                     cmd.ExecuteNonQuery();
                 }
             }
+
+            Console.WriteLine($"Imagen guardada para receta {recetaId}: {imagenBase64.Substring(0, 100)}...");
         }
+
+        public string ObtenerImagenReceta(int recetaId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT imagen FROM recetas WHERE id = @idReceta";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idReceta", recetaId);
+                    object result = cmd.ExecuteScalar();
+
+                    if (result == null || result == DBNull.Value)
+                    {
+                        Console.WriteLine($"⚠️ No se encontró imagen para la receta {recetaId}");
+                        return null;
+                    }
+
+                    string base64String = result.ToString();
+
+                    // Validar si la cadena tiene al menos 100 caracteres antes de usar Substring
+                    if (base64String.Length > 100)
+                    {
+                        Console.WriteLine($"✅ Imagen recuperada para receta {recetaId}: {base64String.Substring(0, 100)}...");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"✅ Imagen recuperada para receta {recetaId}: {base64String}");
+                    }
+
+                    return base64String;
+                }
+            }
+        }
+
+
 
         public List<string> ObtenerIngredientesPorReceta(int recetaId)
         {
@@ -413,6 +453,118 @@ namespace Chef.Data
 
             return pasos;
         }
+
+
+
+        public bool BorrarReceta(int recetaId)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (MySqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Eliminar ingredientes relacionados con la receta
+                        string deleteIngredientes = "DELETE FROM ingredientesrecetas WHERE id_recetas_intermedia = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteIngredientes, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Eliminar pasos relacionados con la receta
+                        string deletePasos = "DELETE FROM pasos WHERE id_recetas_pasos = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deletePasos, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Eliminar valoraciones de la receta
+                        string deleteValoraciones = "DELETE FROM valoracion WHERE id_recetas_valoracion = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteValoraciones, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Finalmente, eliminar la receta
+                        string deleteReceta = "DELETE FROM recetas WHERE id = @recetaId";
+                        using (MySqlCommand cmd = new MySqlCommand(deleteReceta, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@recetaId", recetaId);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            // Si no se eliminó ninguna fila, la receta no existía
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error al borrar receta: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+        public List<string> ObtenerTodosLosIngredientes()
+        {
+            List<string> ingredientes = new List<string>();
+
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT nombre FROM ingredientes";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ingredientes.Add(reader.GetString("nombre"));
+                        }
+                    }
+                }
+            }
+
+            return ingredientes;
+        }
+
+
+        public bool InsertarIngrediente2(Ingrediente ingrediente)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "INSERT INTO ingredientes (nombre) VALUES (@nombre)";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", ingrediente.Nombre);
+
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+                    return filasAfectadas > 0;
+                }
+            }
+        }
+
+
+
+
+
 
 
 
