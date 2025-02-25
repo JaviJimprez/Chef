@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chef"
         mc:Ignorable="d"
-        Title="CrearReceta" Height="850" Width="1080" Background="#f7daa3" WindowStartupLocation="CenterScreen">
+        Title="CrearReceta" Height="850" Width="1080" Background="#f7daa3" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="BotonPersonalizado" TargetType="Button">
             <Setter Property="Width" Value="150"/>
@@ -117,9 +118,9 @@
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Pasos:" FontFamily="Trebuchet MS" FontSize="20" Margin="0,130,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="29,0,0,6" Grid.Column="1">
-                    <ListBox x:Name="LBIngredientes" Height="100"/>
+                    <ListBox x:Name="LBIngredientes" Height="100" FontWeight="Bold"/>
                     <Button x:Name="btAgregarIngrediente" Style="{StaticResource BotonPersonalizado}" Margin="0,10,0,0" FontSize="12" Content="Agregar Ingrediente" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="AgregarIngrediente_Click"/>
-                    <ListBox x:Name="LBPasos" ItemsSource="{Binding Pasos}" Height="100" Margin="0,10,0,0">
+                    <ListBox x:Name="LBPasos" ItemsSource="{Binding Pasos}" Height="100" Margin="0,10,0,0" FontWeight="Bold">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical">
@@ -138,8 +139,8 @@
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Guardar" Click="BtnGuardar_Click" Style="{StaticResource BotonPersonalizado}" Margin="0,0,30,0" FontSize="12" HorizontalAlignment="Right" Height="30" VerticalAlignment="Center" Grid.Column="0"/>
-                <Button Content="Descartar" Click="BtnDescartar_Click" Style="{StaticResource BotonPersonalizado}" Margin="30,0,0,0" FontSize="12" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Grid.Column="1"/>
+                <Button x:Name="BTGuardar" Content="Guardar" Click="BtnGuardar_Click" Style="{StaticResource BotonPersonalizado}" Margin="0,0,30,0" FontSize="12" HorizontalAlignment="Right" Height="30" VerticalAlignment="Center" Grid.Column="0"/>
+                <Button x:Name="BTDescartar" Content="Descartar" Click="BtnDescartar_Click" Style="{StaticResource BotonPersonalizado}" Margin="30,0,0,0" FontSize="12" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Grid.Column="1"/>
             </Grid>
         </StackPanel>
         <Rectangle Grid.Row="1" HorizontalAlignment="Left" Height="8" Fill="orange" VerticalAlignment="Top" Width="2000" Margin="0,348,0,0" Grid.RowSpan="2"/>

@@ -522,6 +522,69 @@ namespace Chef.Data
         }
 
 
+        public void GuardarPasoReceta(int recetaId, Paso paso)
+{
+    using (MySqlConnection conn = new MySqlConnection(_connectionString))
+    {
+        conn.Open();
+
+        // Contar cuántos pasos existen para esta receta
+        string countQuery = "SELECT COUNT(*) FROM pasos WHERE id_recetas_pasos = @id_recetas_pasos";
+        int numPasosExistentes;
+        using (MySqlCommand countCmd = new MySqlCommand(countQuery, conn))
+        {
+            countCmd.Parameters.AddWithValue("@id_recetas_pasos", recetaId);
+            numPasosExistentes = Convert.ToInt32(countCmd.ExecuteScalar());
+        }
+
+        // Asignar el nuevo número de paso basado en el conteo existente
+        int nuevoNumPaso = numPasosExistentes + 1;
+
+        // Insertar el nuevo paso con el número corregido
+        string query = @"INSERT INTO pasos (nombre, num_pasos, descripcion, id_recetas_pasos) 
+                         VALUES (@nombre, @num_pasos, @descripcion, @id_recetas_pasos)";
+
+        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+        {
+            cmd.Parameters.AddWithValue("@nombre", paso.Nombre);
+            cmd.Parameters.AddWithValue("@num_pasos", nuevoNumPaso); // Aquí se asigna el número correcto
+            cmd.Parameters.AddWithValue("@descripcion", paso.Descripcion);
+            cmd.Parameters.AddWithValue("@id_recetas_pasos", recetaId);
+            cmd.Parameters.AddWithValue("@cantidad", 150);
+                }
+    }
+}
+
+
+        public void GuardarIngredienteReceta(int recetaId, string ingredienteNombre)
+        {
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                // 1️⃣ Obtener el ID del ingrediente
+                string queryIngrediente = "SELECT id FROM ingredientes WHERE nombre = @nombre";
+                int ingredienteId;
+                using (MySqlCommand cmd = new MySqlCommand(queryIngrediente, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", ingredienteNombre);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                        ingredienteId = Convert.ToInt32(result);
+                    else
+                        return; // No agregar si el ingrediente no existe
+                }
+
+                // 2️⃣ Insertar en la tabla intermedia
+                string query = "INSERT INTO ingredientesrecetas (id_ingredientes_intermedia, id_recetas_intermedia) VALUES (@id_ingrediente, @id_receta)";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id_ingrediente", ingredienteId);
+                    cmd.Parameters.AddWithValue("@id_receta", recetaId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
 
 

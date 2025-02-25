@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Chef.clases
@@ -28,11 +29,16 @@ namespace Chef.clases
             get => _numPasos;
             set
             {
-                if (value < 1)
-                    throw new ArgumentException("El número de pasos debe ser al menos 1.");
-                _numPasos = value;
+                _numPasos = value < 1 ? 1 : value; // 🔹 Si es 0 o menor, se pone 1 automáticamente
                 OnPropertyChanged();
             }
+        }
+
+        // 🔹 Nueva propiedad 'Numero' como alias de 'NumPasos' para compatibilidad
+        public int Numero
+        {
+            get => _numPasos;
+            set => NumPasos = value;
         }
 
         public string Descripcion
@@ -51,7 +57,7 @@ namespace Chef.clases
         {
             Id = id;
             Nombre = nombre;
-            NumPasos = numPasos;
+            NumPasos = numPasos > 0 ? numPasos : 1; // 🔹 Si se pasa 0, lo cambia a 1
             Descripcion = descripcion;
             IdReceta = idReceta;
         }

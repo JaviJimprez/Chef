@@ -17,15 +17,13 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="BorderBrush" >
-                <Setter.Value >
+            <Setter Property="BorderBrush">
+                <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.5">
                         <GradientStop Color="Red" Offset="0"/>
                         <GradientStop Color="Orange" Offset="0.5"/>
                         <GradientStop Color="Yellow" Offset="1"/>
-
                     </LinearGradientBrush>
-
                 </Setter.Value>
             </Setter>
             <Setter Property="BorderThickness" Value="8"/>
@@ -44,9 +42,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="17" 
-                Background="{TemplateBinding Background}" 
-                BorderBrush="{TemplateBinding BorderBrush}" 
+                        <Border x:Name="Border" CornerRadius="17"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
@@ -63,67 +61,7 @@
             </Setter>
         </Style>
 
-
-        <Style x:Key="Botongradiente" TargetType="Button">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="50"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="Yellow" Offset="0"/>
-                        <GradientStop Color="HotPink" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Border x:Name="Border" 
-                            Background="{TemplateBinding Background}" 
-                            CornerRadius="20" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <!-- Cambiar el fondo al pasar el mouse -->
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="LightYellow" Offset="0"/>
-                                            <GradientStop Color="LightPink" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <!-- Cambiar el fondo al hacer clic -->
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="Orange" Offset="0"/>
-                                            <GradientStop Color="Red" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
         <Style x:Key="RectangleDegradado" TargetType="Rectangle">
-
             <Setter Property="Fill">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -135,36 +73,29 @@
             <Setter Property="Stroke" Value="Black"/>
             <Setter Property="StrokeThickness" Value="2"/>
         </Style>
-
-
-
     </Window.Resources>
-    <Grid Margin="0,0,-34,-34" Background="Wheat">
 
+    <Grid Margin="0,0,-34,-34" Background="Wheat">
         <Rectangle Style="{StaticResource RectangleDegradado}" Margin="0,0,0,464"></Rectangle>
 
-        <Label Content="Paso 1" Width="144" Height="60" FontSize="24" FontWeight="Bold" Margin="10,25,0,483" Foreground="Black" HorizontalAlignment="Left" />
+        <Label Content="Paso 1" Width="144" Height="60" FontSize="24" FontWeight="Bold" Margin="10,25,0,483" Foreground="Black" HorizontalAlignment="Left"/>
 
-        <!-- para cambiar la opacidad habria que cambiarlo todo -->
         <Border Style="{StaticResource GridContainerStyle}" Opacity="1" Height="347" Width="398" Margin="50,108,352,29">
             <Grid Margin="13,5,0,10" Width="632" HorizontalAlignment="Left">
-                <TextBlock HorizontalAlignment="Left" Margin="38,23,0,0" TextWrapping="Wrap" Text="Titulo del paso: " VerticalAlignment="Top" Height="25" Width="125" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
-                <TextBox x:Name="tituloTXT" HorizontalAlignment="Left" Margin="163,25,0,0" TextWrapping="Wrap" Text="{Binding nombre}" VerticalAlignment="Top" Width="132" Height="21"/>
-                <TextBlock HorizontalAlignment="Left" Margin="38,53,0,0" TextWrapping="Wrap" Text="Descripcion del paso:" VerticalAlignment="Top" Height="25" Width="174" FontSize="16" FontWeight="Bold"/>
-                <TextBox x:Name="descripcionTXT" HorizontalAlignment="Left" Margin="38,83,0,0" TextWrapping="Wrap" Text="{Binding Descripcion}" VerticalAlignment="Top" Width="278" Height="141"/>
-                <Button x:Name="addPasoRecetaBtn" Content="Añadir" Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="146,251,0,0" VerticalAlignment="Top" Height="32" Width="83" FontWeight="Bold" Command="{Binding AgregarPasoCommand}"/>
-
+                <TextBlock HorizontalAlignment="Left" Margin="38,23,0,0" TextWrapping="Wrap" Text="Título del paso:" VerticalAlignment="Top" Height="25" Width="125" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                <TextBox x:Name="tituloTXT" HorizontalAlignment="Left" Margin="163,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" Height="21"/>
+                <TextBlock HorizontalAlignment="Left" Margin="38,53,0,0" TextWrapping="Wrap" Text="Descripción del paso:" VerticalAlignment="Top" Height="25" Width="174" FontSize="16" FontWeight="Bold"/>
+                <TextBox x:Name="descripcionTXT" HorizontalAlignment="Left" Margin="38,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" Height="141"/>
+                <Button x:Name="addPasoRecetaBtn" Content="Añadir" Style="{StaticResource BotonPersonalizado}" HorizontalAlignment="Left" Margin="146,251,0,0" VerticalAlignment="Top" Height="32" Width="83" FontWeight="Bold" Click="addPasoRecetaBtn_Click"/>
             </Grid>
-
         </Border>
+
         <Border Style="{StaticResource GridContainerStyle}" Opacity="1" Height="326" Width="245" DockPanel.Dock="Left" Margin="505,118,50,40">
             <Grid>
-                <Button x:Name="AceptarRecetaBtn" Content="Aceptar" Style="{StaticResource Botongradiente}" HorizontalAlignment="Left" Margin="75,231,0,0" VerticalAlignment="Top" Height="33" Width="82" FontWeight="Bold" Command="{Binding AceptarCommand}" />
-                <TextBlock HorizontalAlignment="Left" Margin="48,32,0,0" TextWrapping="Wrap" Text="pasos creados" VerticalAlignment="Top" Height="25" Width="122" FontSize="16" FontWeight="Bold"/>
-                <ComboBox x:Name="cbPasos" HorizontalAlignment="Center" Margin="0,83,0,0" VerticalAlignment="Top" Width="120"/>
-
+                <Button x:Name="AceptarRecetaBtn" Content="Aceptar" Style="{StaticResource BotonPersonalizado}" HorizontalAlignment="Left" Margin="75,244,0,0" VerticalAlignment="Top" Height="33" Width="82" FontWeight="Bold" Click="AceptarRecetaBtn_Click"/>
+                <TextBlock HorizontalAlignment="Left" Margin="48,32,0,0" TextWrapping="Wrap" Text="Pasos creados" VerticalAlignment="Top" Height="25" Width="122" FontSize="16" FontWeight="Bold"/>
+                <ListBox x:Name="lbPasos" HorizontalAlignment="Center" Margin="0,83,0,0" VerticalAlignment="Top" Width="200" Height="150"/>
             </Grid>
-
         </Border>
     </Grid>
 </Window>
