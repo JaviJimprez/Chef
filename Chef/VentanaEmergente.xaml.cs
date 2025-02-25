@@ -1,4 +1,5 @@
 ﻿using Chef.clases;
+using Chef.Singleton;
 using Chef.view;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -11,7 +12,7 @@ namespace WpfApp2
         public VentanaEmergente()
         {
             InitializeComponent();
-            ViewModel = new VentanaPasosViewModel();
+            ViewModel = new VentanaPasosViewModel(UsuarioIniciado.Id);
             ViewModel.OnAceptarCerrando += ViewModel_OnAceptarCerrando;
             DataContext = ViewModel;
         }

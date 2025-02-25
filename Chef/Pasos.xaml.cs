@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.IO;
 using Chef.clases;
 using Chef.models;
 using Chef.Data;
@@ -29,6 +32,9 @@ namespace Chef
 
             // 🔹 Cargar los ingredientes y pasos
             CargarPasosEIngredientes();
+
+            // 🔹 Cargar la imagen del plato
+            CargarImagenPlato();
         }
 
         private void CargarPasosEIngredientes()
@@ -43,6 +49,58 @@ namespace Chef
             if (_listaPasos.Count > 0)
             {
                 MostrarPaso(_indicePasoActual);
+            }
+        }
+
+        private void CargarImagenPlato()
+        {
+            // 🔹 Obtener la imagen en Base64 desde la base de datos
+            string imagenBase64 = _repositorio.ObtenerImagenReceta(_recetaSeleccionada.Id);
+
+            if (!string.IsNullOrEmpty(imagenBase64))
+            {
+                // 🔹 Convertir la imagen Base64 a BitmapImage
+                BitmapImage imagenPlato = ConvertirBase64AImagen(imagenBase64);
+
+                if (imagenPlato != null)
+                {
+                    // 🔹 Asignar la imagen al fondo del Border
+                    imPlato.Background = new ImageBrush(imagenPlato)
+                    {
+                        Stretch = Stretch.UniformToFill,
+                        AlignmentY = AlignmentY.Center
+                    };
+                }
+                else
+                {
+                    Console.WriteLine($"❌ No se pudo convertir la imagen Base64 para la receta {_recetaSeleccionada.Id}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"⚠️ No se encontró imagen para la receta {_recetaSeleccionada.Id}");
+            }
+        }
+
+        private BitmapImage ConvertirBase64AImagen(string base64String)
+        {
+            try
+            {
+                byte[] imageBytes = Convert.FromBase64String(base64String);
+                using (MemoryStream ms = new MemoryStream(imageBytes))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+                    return image;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine($"❌ Error al convertir Base64 a imagen: {ex.Message}");
+                return null;
             }
         }
 
@@ -63,7 +121,6 @@ namespace Chef
                 BtnFinalizar.Visibility = (_indicePasoActual == _listaPasos.Count - 1) ? Visibility.Visible : Visibility.Hidden;
             }
         }
-
 
         private void btAlante_Click(object sender, RoutedEventArgs e)
         {
@@ -89,7 +146,5 @@ namespace Chef
             reseñas.Show();
             this.Close();
         }
-
-        
     }
 }

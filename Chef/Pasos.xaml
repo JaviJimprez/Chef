@@ -130,13 +130,13 @@
         <Grid Grid.Row="0">
             <!-- Imagen de fondo en el encabezado -->
             <Border x:Name="imPlato" Grid.Row="0">
-
-                <!--Border.Background>
-                    <ImageBrush ImageSource="img/pollo_limon.jpg"
-                                Stretch="UniformToFill"
-                                AlignmentY="Center"/>
-                </Border.Background-->
+                <Border.Background>
+                    <ImageBrush ImageSource="{Binding ImagenReceta}" 
+                    Stretch="UniformToFill"
+                    AlignmentY="Center"/>
+                </Border.Background>
             </Border>
+
 
             <!-- Contenedor del texto sobre la imagen -->
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="Wheat">
