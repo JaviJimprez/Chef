@@ -456,6 +456,7 @@ namespace Chef.Data
 
 
 
+
         public bool BorrarReceta(int recetaId)
         {
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -615,16 +616,18 @@ namespace Chef.Data
                         return; // No agregar si el ingrediente no existe
                 }
 
-                // 2️⃣ Insertar en la tabla intermedia
-                string query = "INSERT INTO ingredientesrecetas (id_ingredientes_intermedia, id_recetas_intermedia) VALUES (@id_ingrediente, @id_receta)";
+                // 2️⃣ Insertar en la tabla intermedia con un valor fijo para 'cantidad'
+                string query = "INSERT INTO ingredientesrecetas (id_ingredientes_intermedia, id_recetas_intermedia, cantidad) VALUES (@id_ingrediente, @id_receta, @cantidad)";
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id_ingrediente", ingredienteId);
                     cmd.Parameters.AddWithValue("@id_receta", recetaId);
+                    cmd.Parameters.AddWithValue("@cantidad", 150); // 🔹 Asignamos un valor fijo de 150
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
 
 
 
